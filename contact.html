@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us | PadelMarket</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+/* =========================================================
+   CONTACT US · breadcrumb · map banner · form · FAQ
+   ========================================================= */
+.crumbbar{padding:18px var(--g);border-bottom:1px solid var(--line)}
+/* map banner */
+.mapban{position:relative;height:clamp(340px,40vw,440px);background:#0d1626;overflow:hidden}
+.mapban svg.map{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;left:62%;top:46%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:2}
+.pin__dot{width:44px;height:44px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--blue);display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.45)}
+.pin__dot i{width:14px;height:14px;border-radius:50%;background:#fff;transform:rotate(45deg)}
+.pin__pulse{position:absolute;left:50%;bottom:-10px;width:18px;height:8px;border-radius:50%;background:rgba(78,151,224,.7);transform:translateX(-50%);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(78,151,224,.6)}100%{box-shadow:0 0 0 26px rgba(78,151,224,0)}}
+.pin__lbl{background:#fff;color:var(--ink);font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.25);transform:translateY(-4px)}
+.mapcard{position:absolute;z-index:3;left:var(--g);top:50%;transform:translateY(-50%);width:min(380px,calc(100% - 2*var(--g)));background:#fff;border-radius:18px;padding:26px;display:grid;gap:14px;box-shadow:0 24px 50px rgba(0,0,0,.35)}
+.mapcard h1{font-size:clamp(38px,4.4vw,52px);line-height:1;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond)}
+.mapcard p{color:var(--ink-2);font-size:15px}
+.mapcard .it{display:flex;gap:12px;align-items:center;font-size:15px}
+.mapcard .it .ic{width:38px;height:38px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;flex-shrink:0}
+.mapcard .it small{display:block;font-size:12px;color:var(--muted)}
+.mapcard .it b{font-weight:600}
+.mapcard a.gm{font-size:14px;font-weight:600;color:var(--blue);text-decoration:underline}
+/* form */
+.cx{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,6vw,90px);padding-block:clamp(60px,8vw,100px)}
+.cx__intro{display:flex;flex-direction:column;gap:16px}
+.cx__intro p{color:var(--ink-2);max-width:420px}
+.cx__list{display:grid;gap:10px;margin-top:6px}
+.cx__list div{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--ink-2)}
+.cx__list svg{color:var(--blue);flex-shrink:0;margin-top:3px}
+.cform{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:1fr 1fr;gap:16px;box-shadow:0 18px 40px rgba(10,20,50,.06)}
+.cform .full{grid-column:1/-1}
+.topics{display:flex;gap:8px;flex-wrap:wrap}
+.topics label{cursor:pointer}
+.topics input{position:absolute;opacity:0;width:1px;height:1px}
+.topics span{display:inline-block;padding:9px 15px;border-radius:999px;border:1px solid #d6d9e0;font-size:14px;font-weight:500;transition:.2s}
+.topics input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff}
+.topics input:focus-visible+span{box-shadow:0 0 0 3px rgba(23,105,186,.25)}
+.cform .btn{justify-self:start;border-radius:10px}
+.sent{grid-column:1/-1;text-align:center;padding:30px 10px;display:grid;gap:10px;justify-items:center}
+.sent .tick{width:60px;height:60px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center}
+.sent h3{font-size:28px;font-weight:700;font-variation-settings:var(--cond)}
+.sent p{color:var(--ink-2)}
+/* faq */
+.faq{background:var(--grey);padding-block:clamp(60px,8vw,100px)}
+.faq__head{text-align:center;max-width:640px;margin:0 auto 40px;display:grid;gap:12px;justify-items:center}
+.faq__head h2{font-size:clamp(34px,4vw,52px);line-height:1;font-weight:700;font-variation-settings:var(--cond)}
+.faq__head p{color:var(--ink-2)}
+.faq__list{max-width:860px;margin:0 auto;display:grid;gap:10px}
+.qa-item{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.qa-item.open{border-color:var(--blue)}
+.qa-item>button{width:100%;display:flex;align-items:center;gap:16px;padding:20px 22px;text-align:left;font-size:18px;font-weight:600}
+.qa-item>button .n{font-size:13px;font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums;min-width:22px}
+.qa-item>button i{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--grey);display:grid;place-items:center;font-style:normal;flex-shrink:0;transition:transform .25s,background .25s,color .25s}
+.qa-item.open>button i{transform:rotate(45deg);background:var(--blue);color:#fff}
+.qa-item .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s}
+.qa-item.open .ans{grid-template-rows:1fr}
+.qa-item .ans>div{overflow:hidden}
+.qa-item .ans p{padding:0 22px 6px 60px;color:var(--ink-2);line-height:1.65}
+.qa-item .ans dl{padding:0 22px 6px 60px;display:grid;gap:6px;color:var(--ink-2)}
+.qa-item .ans dt{display:inline;font-weight:600;color:var(--ink)}
+.qa-item .ans dd{display:inline;margin:0}
+.qa-item .next{display:inline-block;margin:6px 22px 20px 60px;font-weight:600;color:var(--blue);text-decoration:underline}
+.faq__more{text-align:center;margin-top:30px;color:var(--ink-2)}
+.faq__more a{color:var(--blue);font-weight:600;text-decoration:underline}
+@media (max-width:900px){
+  .cx{grid-template-columns:1fr}
+  .mapcard{top:auto;bottom:16px;transform:none}
+  .mapban{height:520px}
+  .pin{top:28%}
+}
+@media (max-width:600px){
+  .cform{grid-template-columns:1fr}
+  .qa-item .ans p,.qa-item .ans dl{padding-left:22px}.qa-item .next{margin-left:22px}
+  .qa-item>button{font-size:16px;padding:18px}
+}
+@media (prefers-reduced-motion:reduce){.pin__pulse{animation:none}}
+</style>
+</head>
+<body class="inner">
+
+<!-- BREADCRUMB -->
+<div class="crumbbar"><nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Contact us</span></nav></div>
+
+<!-- MAP BANNER -->
+<section class="mapban" aria-label="Where we are">
+  <svg class="map" id="map" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <div class="pin" aria-hidden="true"><span class="pin__lbl">PadelMarket · Melbourne</span><span class="pin__dot"><i></i></span><span class="pin__pulse"></span></div>
+  <div class="mapcard">
+    <h1>Contact us</h1>
+    <p>Questions about a racket, an order or a listing? We're here to help.</p>
+    <div class="it"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span><small>Email</small><b>hello@padelmarket.com.au</b></span></div>
+    <div class="it"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><small>Based in</small><b>Melbourne, VIC</b></span></div>
+    <a class="gm" href="https://www.google.com/maps/search/?api=1&query=Melbourne%20VIC" target="_blank" rel="noopener">Open in Google Maps</a>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="cx wrap">
+  <div class="cx__intro">
+    <span class="eyebrow">Send us a message</span>
+    <h2 class="h-l">How can we help?</h2>
+    <p>Tell us a little about what you need and our team will get back to you by email.</p>
+    <div class="cx__list">
+      <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>Help choosing a racket for your level</div>
+      <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>Questions about an order or delivery</div>
+      <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>Help with selling or a listing</div>
+    </div>
+  </div>
+  <form class="cform" id="ctForm" novalidate>
+    <label class="fld" data-f="name"><span>Name</span><input id="cName" autocomplete="name" placeholder="Your full name"><span class="msg">Enter your name.</span></label>
+    <label class="fld" data-f="email"><span>Email</span><input id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"><span class="msg">Enter a valid email so we can reply.</span></label>
+    <fieldset class="fld full" style="border:0;min-width:0"><legend>Topic</legend>
+      <div class="topics" style="margin-top:8px">
+        <label><input type="radio" name="topic" value="Buying a racket" checked><span>Buying a racket</span></label>
+        <label><input type="radio" name="topic" value="Selling a racket"><span>Selling a racket</span></label>
+        <label><input type="radio" name="topic" value="Orders and shipping"><span>Orders and shipping</span></label>
+        <label><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
+      </div>
+    </fieldset>
+    <label class="fld full"><span>Order number (optional)</span><input id="cOrder" placeholder="PM123456"></label>
+    <label class="fld full" data-f="msg"><span>Message</span><textarea id="cMsg" placeholder="How can we help?"></textarea><span class="msg">Write a short message (at least 10 characters).</span></label>
+    <button class="btn btn-blue full">Send message</button>
+  </form>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq__head"><span class="eyebrow">FAQ</span><h2>Questions, answered</h2><p>Everything you need to buy, sell and play with confidence. Can't find what you're looking for? Send us a message and our team will help you out.</p></div>
+    <div class="faq__list" id="faqList"></div>
+    <p class="faq__more">Still have a question? <a href="#ctForm">Send us a message</a></p>
+  </div>
+</section>
+
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script>
+PM.header();PM.footer();
+
+/* stylised map (original artwork, replace with a Google Maps embed in production) */
+(()=>{
+  const m=$('#map');let g='<rect width="1600" height="500" fill="#0d1626"/>';
+  for(let i=0;i<40;i++){const x=i*44-200;g+=`<path d="M${x} 0 L${x+260} 500" stroke="#1b2a42" stroke-width="${i%5?1:3}"/>`}
+  for(let i=0;i<16;i++){const y=i*34;g+=`<path d="M0 ${y} L1600 ${y-120}" stroke="#1b2a42" stroke-width="${i%4?1:3}"/>`}
+  g+='<path d="M0 360 C260 330 420 420 640 380 S1000 250 1180 300 1480 360 1600 330 L1600 380 C1460 410 1300 350 1180 350 S880 420 650 440 280 380 0 410Z" fill="#14579c" opacity=".55"/>';
+  g+='<rect x="760" y="120" width="140" height="90" rx="8" fill="#16304f"/><rect x="1240" y="60" width="180" height="110" rx="8" fill="#16304f"/><rect x="260" y="90" width="160" height="80" rx="8" fill="#16304f"/>';
+  g+='<path d="M0 230 L1600 110" stroke="#2b4a77" stroke-width="7"/><path d="M880 0 L1060 500" stroke="#2b4a77" stroke-width="7"/><path d="M300 0 L520 500" stroke="#2b4a77" stroke-width="5"/>';
+  m.innerHTML=g;
+})();
+
+/* FAQ (approved copy) */
+const FAQ=[
+  ['Which racket is right for me?','<p>Start with your level and how you like to play. Round rackets are forgiving and give more control, which suits beginners. Teardrop rackets balance power and control. Diamond rackets have the most power and suit advanced players. A lighter racket (around 350 to 360 g) is easier on your arm.</p>','new-rackets.html','Shop by skill level'],
+  ['What do the condition labels mean?','<dl><div><dt>Like New:</dt> <dd>never or barely used.</dd></div><div><dt>Good:</dt> <dd>light marks, plays like new.</dd></div><div><dt>Fair:</dt> <dd>visible wear, no cracks.</dd></div><div><dt>Well Used:</dt> <dd>heavy wear but still playable.</dd></div></dl>','second-hand.html','Browse second-hand'],
+  ['How do I sell my racket?','<p>Create an account, post your racket with photos, price and condition, and your listing goes live straight away.</p>','sell-your-racket.html','Sell your racket'],
+  ['How do payment and shipping work?','<p>Pay at checkout with Visa, Mastercard or PayPal, and we ship across Australia with tracking.</p>','new-rackets.html','Shop new rackets'],
+  ['Is my card payment secure?','<p>Checkout payments are processed by a secure payment provider, and PadelMarket never stores your full card details.</p>','','']
+];
+$('#faqList').innerHTML=FAQ.map(([q,a,href,cta],i)=>`<div class="qa-item ${i?'':'open'}"><button type="button" aria-expanded="${!i}"><span class="n">0${i+1}</span>${q}<i aria-hidden="true">+</i></button><div class="ans"><div>${a}${href?`<a class="next" href="${href}">${cta}</a>`:'<span style="display:block;height:14px"></span>'}</div></div></div>`).join('');
+$('#faqList').onclick=e=>{const b=e.target.closest('.qa-item>button');if(!b)return;const it=b.parentElement,open=!it.classList.contains('open');
+  $$('#faqList .qa-item').forEach(x=>{x.classList.remove('open');x.firstElementChild.setAttribute('aria-expanded','false')});if(open){it.classList.add('open');b.setAttribute('aria-expanded','true')}};
+
+/* contact form (prototype: nothing is sent) */
+const u=PM.auth.user();if(u){$('#cName').value=u.name;$('#cEmail').value=u.email}
+const rules={name:()=>!!$('#cName').value.trim(),email:()=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('#cEmail').value.trim()),msg:()=>$('#cMsg').value.trim().length>=10};
+$('#ctForm').addEventListener('input',e=>{const f=e.target.closest('.fld.bad');if(f&&rules[f.dataset.f]())f.classList.remove('bad')});
+$('#ctForm').onsubmit=e=>{e.preventDefault();
+  const bad=Object.keys(rules).filter(k=>{const ok=rules[k]();$(`.fld[data-f="${k}"]`).classList.toggle('bad',!ok);return !ok});
+  if(bad.length)return;
+  const name=PM.esc($('#cName').value.trim().split(' ')[0]);
+  e.target.innerHTML=`<div class="sent" role="status"><span class="tick"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 5 5 9-10"/></svg></span><h3>Message sent</h3><p>Thanks, ${name}. Our team will reply to you by email.</p></div>`;
+};
+</script>
+</body>
+</html>

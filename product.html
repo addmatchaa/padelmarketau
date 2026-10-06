@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Racket | PadelMarket</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+body{background:#fff;color:var(--ink)}
+.pd-wrap{max-width:1320px;margin:0 auto;padding:28px var(--g) 80px}
+.pd-wrap .crumbs{color:var(--muted);margin-bottom:22px}
+.pd-wrap .crumbs span:last-child{color:var(--ink)}
+.posted{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--blue);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:22px}
+.posted b{display:flex;gap:10px;align-items:center}
+.pd{display:grid;grid-template-columns:84px minmax(0,1fr) minmax(320px,400px);gap:clamp(16px,3vw,48px);align-items:start}
+/* thumbnails */
+.thumbs{position:sticky;top:130px;display:grid;gap:8px}
+.thumbs button{aspect-ratio:1/1.5;border-radius:8px;background:var(--grey);overflow:hidden;border:1.5px solid transparent;transition:border-color .2s;display:grid;place-items:center;padding:6px}
+.thumbs button.on{border-color:var(--ink)}
+.thumbs button svg,.thumbs button img{width:100%;height:100%;object-fit:contain}
+.thumbs button img{object-fit:cover;border-radius:3px}
+/* gallery */
+.gal{display:grid;gap:8px}
+.shot{aspect-ratio:1/1.05;border-radius:10px;background:var(--grey);position:relative;overflow:hidden;display:grid;place-items:center}
+.shot>svg{height:88%;width:auto;filter:drop-shadow(0 30px 30px rgba(10,20,50,.2))}
+.shot>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot.photo{aspect-ratio:auto;display:block}
+.shot.photo>img{position:static;width:100%;height:auto;max-height:86vh;object-fit:contain;background:var(--grey)}
+.shot.zoom>svg{height:210%;transform:translateY(22%)}
+.shot.tilt>svg{transform:rotate(-24deg)}
+.shot.back>svg{transform:scaleX(-1);filter:brightness(.85) drop-shadow(0 30px 30px rgba(10,20,50,.2))}
+.shot.scene .ph{position:absolute;inset:0}
+.shot .tag{position:absolute;left:14px;bottom:14px;font-size:12px;opacity:.6}
+/* info */
+.info{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
+.info .top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.info .kicker{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.info h1{font-size:clamp(36px,3.6vw,50px);line-height:1.02;font-weight:400;letter-spacing:-.02em}
+.info .price{font-size:17px;font-weight:600;white-space:nowrap;padding-top:8px;text-align:right}
+.info .price s{display:block;font-weight:400;font-size:14px;color:var(--muted);margin:2px 0 0}
+.rule{height:1px;background:var(--line);position:relative}
+.rule::before,.rule::after{content:"";position:absolute;top:-3px;width:1px;height:7px;background:rgba(10,11,14,.25)}
+.rule::before{left:0}.rule::after{right:0}
+.info .desc{font-size:14.5px;line-height:1.65;color:var(--ink-2);white-space:pre-line}
+.spec{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.spec div{background:var(--grey);border-radius:8px;padding:12px 8px;text-align:center}
+.spec span{display:block;font-size:12px;color:var(--muted);margin-bottom:2px}
+.spec b{font-weight:600;font-size:14px;word-break:break-word}
+.buy{display:flex;align-items:center;gap:12px;height:56px;border-radius:8px;background:var(--blue);color:#fff;padding:6px;font-size:16px;font-weight:500;width:100%;transition:background .2s}
+.buy:hover{background:var(--blue-h)}
+.ctas{display:grid;gap:8px}
+a.buy{color:#fff}
+.buy i{width:44px;height:44px;border-radius:5px;background:rgba(255,255,255,.92);color:var(--blue);display:grid;place-items:center;flex-shrink:0}
+.buy span{flex:1;text-align:center;padding-right:44px}
+.buy[disabled]{background:var(--grey-2);color:var(--muted);cursor:not-allowed}
+.buy[disabled] i{background:#fff;color:var(--muted)}
+.buy.alt{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+.buy.alt:hover{background:var(--grey)}
+.buy.alt i{background:var(--grey);color:var(--ink)}
+.seller{display:flex;gap:12px;align-items:center;background:var(--grey);border-radius:10px;padding:12px}
+.seller .avatar{width:42px;height:42px;font-size:15px}
+.seller small{display:block;color:var(--muted);font-size:12px}
+.acc{border-bottom:1px solid var(--line)}
+.acc>button{width:100%;display:flex;align-items:center;gap:14px;padding:12px 0;text-align:left;font-size:15px}
+.acc>button .ic{width:38px;height:38px;border-radius:8px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;flex-shrink:0}
+.acc>button .pm{margin-left:auto;width:14px;height:14px;position:relative}
+.acc>button .pm::before,.acc>button .pm::after{content:"";position:absolute;left:0;right:0;top:6px;height:1.5px;background:currentColor;transition:transform .25s}
+.acc>button .pm::after{transform:rotate(90deg)}
+.acc.open>button .pm::after{transform:rotate(0)}
+.acc .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s}
+.acc.open .ans{grid-template-rows:1fr}
+.acc .ans>div{overflow:hidden}
+.acc .ans p{padding:0 0 16px 52px;color:var(--ink-2);font-size:14px;line-height:1.6}
+.more{margin-top:80px}
+.more h2{font-size:clamp(28px,3vw,40px);font-weight:400;letter-spacing:-.02em;margin-bottom:24px;display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.more h2 a{font-size:14px;font-weight:600;color:var(--blue)}
+.more .grid{--cols:4}
+.nf{text-align:center;padding:120px 20px}
+.nf h1{font-size:44px;font-weight:600;margin-bottom:10px}
+@media (max-width:1000px){
+  .pd{grid-template-columns:1fr}
+  .thumbs{position:static;grid-template-columns:repeat(5,64px);order:2}
+  .gal{order:1;grid-auto-flow:column;grid-auto-columns:88%;overflow-x:auto;scroll-snap-type:x mandatory}
+  .gal .shot{scroll-snap-align:start}
+  .info{position:static;order:3}
+  .more .grid{--cols:2!important}
+}
+</style>
+</head>
+<body class="inner">
+<main class="pd-wrap" id="root"></main>
+<div id="pmFooter"></div>
+
+<!-- contact seller modal -->
+<div class="modal" id="msgModal" role="dialog" aria-modal="true" aria-labelledby="msgTitle">
+  <form class="modal__b" id="msgForm">
+    <button type="button" class="modal__x" aria-label="Close" data-close>✕</button>
+    <h3 id="msgTitle" style="font-size:26px;font-weight:700;font-variation-settings:var(--cond);margin-bottom:4px">Contact seller</h3>
+    <p style="color:var(--ink-2);font-size:14px;margin-bottom:16px" id="msgSub"></p>
+    <label class="fld"><span>Your message</span><textarea id="msgText" required></textarea></label>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-blue">Send message</button><button type="button" class="btn btn-line" data-close>Cancel</button></div>
+  </form>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+const {money,esc,racketSvg,I,auth}=PM;
+const qs=new URLSearchParams(location.search);
+const pid=qs.get('id'),lid=qs.get('listing');
+const p=pid?PM.getProduct(pid):null, l=lid?PM.getListing(lid):null;
+PM.header({active:l?'second':'new'});
+PM.footer();
+const root=$('#root');
+const icon={
+  truck:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
+  ret:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9h11a5 5 0 0 1 0 10H8"/><path d="m8 5-4 4 4 4"/></svg>',
+  shield:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></svg>',
+  chat:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>',
+  flag:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>',
+  box:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 7 9-4 9 4v10l-9 4-9-4Z"/><path d="m3 7 9 4 9-4M12 11v10"/></svg>'
+};
+const acc=(ic,t,body,open)=>`<div class="acc ${open?'open':''}"><button type="button">${`<span class="ic">${ic}</span>`}${t}<span class="pm"></span></button><div class="ans"><div><p>${body}</p></div></div></div>`;
+
+if(!p&&!l){
+  document.title='Not found | PadelMarket';
+  root.innerHTML=`<div class="nf"><h1>We couldn't find that racket</h1><p style="color:var(--ink-2);margin-bottom:24px">It may have been sold or removed.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="new-rackets.html" class="btn btn-blue">New rackets</a><a href="second-hand.html" class="btn btn-line">Second-hand</a></div></div>`;
+}else{
+  const isL=!!l, x=p||l;
+  const name=isL?l.title:`${p.brand} ${p.name}`;
+  document.title=`${name} | PadelMarket`;
+  const f=x.face||'#15171c',r=x.rim||'#4E97E0',s=x.s??1;
+  // gallery shots (uploaded photos for listings, otherwise illustrated views)
+  const pics=(isL?l.photos:p.photos)||[];
+  const shots=pics.length
+    ? pics.map(src=>({cls:'photo',html:`<img src="${src}" alt="${esc(name)}">`,thumb:`<img src="${src}" alt="">`}))
+    : [{cls:'',label:'Front'},{cls:'tilt',label:'Angle'},{cls:'zoom',label:'Face detail'},{cls:'back',label:'Back'}].map(v=>({cls:v.cls,html:racketSvg(f,r,s,'')+`<span class="tag">${v.label}</span>`,thumb:racketSvg(f,r,s,'')}));
+  if(!pics.length)shots.push({cls:'scene',html:`<div class="ph" data-scene="night" data-ball="1"></div>`,thumb:`<svg viewBox="0 0 60 90"><rect width="60" height="90" fill="#14579c"/><circle cx="40" cy="70" r="8" fill="#D7F54A"/></svg>`});
+  const u=auth.user(), own=isL&&u&&l.owner===u.email;
+
+  const specs=isL
+    ? [['Brand',l.brand],['Model',l.model],['Condition',l.condition],['Skill level',l.level],['Location',l.location||'Not provided'],['Listed',PM.timeAgo(l.created)],['Seller',l.seller||'Not provided'],['Photos',(l.photos||[]).length||'Not provided'],['Ad ID',String(l.id).slice(-6).toUpperCase()]]
+    : [['Level',p.level],['Game',p.game],['Shape',p.shape],['Core',p.core],['Carbon',p.carbon],['Surface',p.surface],['Weight',p.weight],['Balance',p.balance],['Finish',p.finish]];
+
+  const cta=isL
+    ? (own?`<button class="buy alt" id="soldBtn"><i>${PM.I.check}</i><span>Mark as sold</span></button>`
+          :`<div class="ctas">${PM.cart.has(l.id,'listing')
+              ?`<a class="buy" href="cart.html"><i>${I.bag}</i><span>In your cart · View cart</span></a>`
+              :`<button class="buy" data-add="${esc(l.id)}" data-type="listing" data-after="cart"><i>${I.bag}</i><span>Add to cart · ${money(l.price)}</span></button>`}
+            <button class="buy alt" id="contactBtn"><i>${icon.chat}</i><span>Contact seller</span></button></div>`)
+    : (p.stock?`<button class="buy" data-add="${p.id}"><i>${I.bag}</i><span>Add to cart · ${money(p.price)}</span></button>`
+              :`<button class="buy" disabled><i>${I.bag}</i><span>Sold out</span></button>`);
+
+  const accs=isL
+    ? acc(icon.shield,'Buying safely','Meet in a public place or at your local club, inspect the racket before paying, and never send money to someone you haven\'t met. PadelMarket will never ask for your password.',true)
+      +acc(icon.box,'Payment and shipping','Pay at checkout with Visa, Mastercard or PayPal, and the racket ships across Australia with tracking. You can also contact the seller to ask questions first.')
+      +acc(icon.flag,'Report this listing','If something doesn\'t look right, like wrong photos, misleading condition or suspicious pricing, let us know and our team will review it.')
+    : acc(icon.truck,'Payment and shipping','Pay at checkout with Visa, Mastercard or PayPal, and we ship across Australia with tracking. Choose standard or express delivery at checkout.',true)
+      +acc(icon.shield,'Secure checkout','Checkout payments are processed by a secure payment provider, and PadelMarket never stores your full card details.')
+      +acc(icon.ret,'Not sure it\'s the right racket?','Start with your level and how you like to play. Round rackets give more control, teardrop rackets balance power and control, and diamond rackets have the most power. Our team can help you choose.');
+
+  root.innerHTML=`
+  ${qs.get('posted')&&isL?`<div class="posted"><b>${PM.I.check}Your racket is live on the marketplace.</b><a href="second-hand.html" class="btn btn-white btn-sm">View on Second-Hand</a></div>`:''}
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="${isL?'second-hand.html':'new-rackets.html'}">${isL?'Second-Hand':'New Rackets'}</a><span>/</span><span>${esc(name)}</span></nav>
+  <div class="pd">
+    <div class="thumbs" id="thumbs">${shots.map((sh,i)=>`<button type="button" data-i="${i}" class="${i?'':'on'}" aria-label="View image ${i+1}">${sh.thumb}</button>`).join('')}</div>
+    <div class="gal" id="gal">${shots.map((sh,i)=>`<div class="shot ${sh.cls||''}" id="shot${i}">${sh.html}</div>`).join('')}</div>
+    <aside class="info">
+      <div>
+        <div class="kicker">${isL?`<span class="cond ${PM.condClass(l.condition)}" style="position:static">${esc(l.condition)}</span>Pre-loved · ${esc(l.brand)} · ${esc(l.model)}`:`${p.brand}${p.badges.includes('new')?' · New':''}${p.badges.includes('ltd')?' · Limited':''}`}</div>
+        <div class="top"><h1>${isL?esc(l.title):p.name}</h1><div class="price">${money(x.price)}${!isL&&p.was?`<s>${money(p.was)}</s>`:''}</div></div>
+      </div>
+      <div class="rule"></div>
+      <p class="desc">${esc(isL?l.description:p.desc)}</p>
+      <div class="rule"></div>
+      <div class="spec">${specs.map(([k,v])=>`<div><span>${k}</span><b>${esc(v)}</b></div>`).join('')}</div>
+      ${isL?`<div class="seller"><span class="avatar">${esc((l.seller||'?')[0])}</span><div><b>${esc(l.seller||'Seller')}</b><small>${own?'This is your listing':'Member · '+esc(l.location||'Australia')}</small></div></div>`:''}
+      ${cta}
+      <div class="rule"></div>
+      <div>${accs}</div>
+    </aside>
+  </div>
+  <section class="more">
+    <h2>${isL?'More pre-loved rackets':'You may also like'}<a href="${isL?'second-hand.html':'new-rackets.html'}">View all</a></h2>
+    <div class="grid" id="moreGrid"></div>
+  </section>`;
+
+  // related items
+  $('#moreGrid').innerHTML=isL
+    ? PM.listings().filter(o=>o.id!==l.id).sort((a,b)=>(b.level===l.level)-(a.level===l.level)).slice(0,4).map(PM.listingTile).join('')
+    : PM.NEW.filter(o=>o.id!==p.id).sort((a,b)=>(b.shape===p.shape)-(a.shape===p.shape)).slice(0,4).map(PM.productCard).join('');
+
+  // thumbnails ↔ gallery
+  $('#thumbs').onclick=e=>{const b=e.target.closest('button');if(!b)return;const t=$('#shot'+b.dataset.i);
+    if(innerWidth<=1000)$('#gal').scrollTo({left:t.offsetLeft-$('#gal').offsetLeft,behavior:'smooth'});else scrollTo({top:t.getBoundingClientRect().top+scrollY-130,behavior:'smooth'})};
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=e.target.id.slice(4);$$('#thumbs button').forEach(b=>b.classList.toggle('on',b.dataset.i===i))}}),{threshold:.6});
+  $$('.shot').forEach(s=>io.observe(s));
+  // accordions
+  root.addEventListener('click',e=>{const b=e.target.closest('.acc>button');if(b)b.parentElement.classList.toggle('open')});
+  // listing actions
+  if(isL&&!own){
+    const m=$('#msgModal');
+    $('#contactBtn').onclick=()=>{if(!auth.user()){location.href='login.html?next='+encodeURIComponent('product.html?listing='+l.id);return}
+      $('#msgSub').textContent=`About “${l.title}” · ${money(l.price)}`;$('#msgText').value=`Hi ${String(l.seller||'').split(' ')[0]||'there'}, is this racket still available?`;m.classList.add('on');setTimeout(()=>$('#msgText').focus(),50)};
+    m.onclick=e=>{if(e.target===m||e.target.closest('[data-close]'))m.classList.remove('on')};
+    $('#msgForm').onsubmit=e=>{e.preventDefault();m.classList.remove('on');PM.toast(`Message sent to ${l.seller||'the seller'}`)};
+  }
+  if(own){$('#soldBtn').onclick=()=>{const all=PM.store.get('pm_listings',[]).filter(o=>o.id!==l.id);PM.store.set('pm_listings',all);PM.toast('Marked as sold. Listing removed');setTimeout(()=>location.href='second-hand.html?mine=1',900)}}
+}
+PM.fillPh();
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Cart | PadelMarket</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+body{background:var(--grey)}
+.cart-wrap{max-width:1180px;margin:0 auto;padding:32px var(--g) 90px}
+.cart-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:14px 0 26px}
+.cart-head h1{font-size:clamp(40px,5vw,56px);line-height:1;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond)}
+.cart-head a{font-weight:600;color:var(--blue)}
+.cart-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;align-items:start}
+.lines{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.lines__hd{display:grid;grid-template-columns:minmax(0,1fr) 140px 110px;gap:16px;padding:14px 22px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.line{display:grid;grid-template-columns:minmax(0,1fr) 140px 110px;gap:16px;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)}
+.line:last-child{border-bottom:0}
+.line__item{display:flex;gap:16px;align-items:center;min-width:0}
+.line__img{width:92px;height:110px;border-radius:12px;background:var(--grey);overflow:hidden;flex-shrink:0}
+.line__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.line__t{min-width:0}
+.line__t small{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.line__t a{display:block;font-size:18px;font-weight:600;line-height:1.2;margin:2px 0 4px}
+.line__t a:hover{color:var(--blue)}
+.line__t p{font-size:13px;color:var(--ink-2)}
+.line__t .unit{font-size:14px;font-weight:600;margin-top:6px}
+.rm{font-size:13px;font-weight:600;color:var(--muted);text-decoration:underline;margin-top:6px}
+.rm:hover{color:var(--err)}
+.qty{display:inline-flex;align-items:center;border:1px solid #d6d9e0;border-radius:10px;overflow:hidden;background:#fff}
+.qty button{width:36px;height:40px;display:grid;place-items:center;font-size:18px}
+.qty button:hover:not(:disabled){background:var(--grey)}
+.qty button:disabled{opacity:.3;cursor:default}
+.qty output{min-width:34px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.one{font-size:12px;color:var(--muted)}
+.line__total{text-align:right;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.sum{position:sticky;top:130px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:14px}
+.sum h2{font-size:24px;font-weight:700;font-variation-settings:var(--cond)}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums}
+.row.muted{color:var(--ink-2)}
+.row.total{font-size:20px;font-weight:700;border-top:1px solid var(--line);padding-top:14px}
+.sum .note{font-size:12px;color:var(--muted)}
+.sum .btn{width:100%;border-radius:10px}
+.accept{display:flex;flex-direction:column;gap:8px;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--muted)}
+.payicons{display:inline-flex;gap:6px;align-items:center}
+.empty-cart{background:#fff;border:1px solid var(--line);border-radius:18px;padding:64px 24px;text-align:center;display:grid;gap:14px;justify-items:center}
+.empty-cart .ic{width:72px;height:72px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center}
+.empty-cart h2{font-size:30px;font-weight:700;font-variation-settings:var(--cond)}
+.empty-cart p{color:var(--ink-2);max-width:380px}
+.empty-cart .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+@media (max-width:960px){.cart-grid{grid-template-columns:1fr}.sum{position:static}}
+@media (max-width:640px){
+  .lines__hd{display:none}
+  .line{grid-template-columns:1fr auto;grid-template-areas:"item item" "qty total";padding:16px}
+  .line__item{grid-area:item}.line__qty{grid-area:qty}.line__total{grid-area:total}
+  .line__img{width:80px;height:96px}
+}
+</style>
+</head>
+<body class="inner">
+<main class="cart-wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Cart</span></nav>
+  <div class="cart-head"><h1>Your cart</h1><a href="new-rackets.html">Continue shopping</a></div>
+  <div id="cartRoot"></div>
+</main>
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script>
+PM.header();PM.footer();
+const {cart,money2,esc}=PM;
+const bagIco='<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
+function render(){
+  const lines=cart.lines(),root=$('#cartRoot');
+  if(!lines.length){
+    root.innerHTML=`<div class="empty-cart"><span class="ic">${bagIco}</span><h2>Your cart is empty</h2><p>Find a new racket for your game, or pick up a pre-loved one from a player near you.</p><div class="btns"><a href="new-rackets.html" class="btn btn-blue">Shop new rackets</a><a href="second-hand.html" class="btn btn-line">Browse second-hand</a></div></div>`;
+    return;
+  }
+  const sub=cart.subtotal(),n=cart.count();
+  root.innerHTML=`<div class="cart-grid">
+    <section class="lines" aria-label="Cart items">
+      <div class="lines__hd"><span>Item</span><span>Quantity</span><span style="text-align:right">Total</span></div>
+      ${lines.map(l=>`<div class="line" data-id="${esc(l.id)}" data-type="${l.type}">
+        <div class="line__item"><a class="line__img" href="${l.href}">${l.photo?`<img src="${l.photo}" alt="${esc(l.title)}">`:''}</a>
+          <div class="line__t"><small>${esc(l.brand)}</small><a href="${l.href}">${esc(l.title)}</a><p>${esc(l.meta)}</p><div class="unit">${money2(l.price)}</div><button class="rm" data-act="rm" type="button">Remove</button></div></div>
+        <div class="line__qty">${l.type==='listing'?`<span class="one">One of a kind</span>`:`<div class="qty"><button type="button" data-act="dec" aria-label="Decrease quantity" ${l.qty<=1?'disabled':''}>−</button><output aria-live="polite">${l.qty}</output><button type="button" data-act="inc" aria-label="Increase quantity" ${l.qty>=l.max?'disabled':''}>+</button></div>`}</div>
+        <div class="line__total">${money2(l.price*l.qty)}</div>
+      </div>`).join('')}
+    </section>
+    <aside class="sum">
+      <h2>Order summary</h2>
+      <div class="row muted"><span>Subtotal · ${n} item${n>1?'s':''}</span><span>${money2(sub)}</span></div>
+      <div class="row muted"><span>Shipping</span><span>Calculated at checkout</span></div>
+      <div class="row total"><span>Estimated total</span><span>${money2(sub)}</span></div>
+      <p class="note">Prices in AUD and include GST.</p>
+      <a href="checkout.html" class="btn btn-blue">Checkout</a>
+      <div class="accept"><span>We accept</span>${PM.payIcons(26)}</div>
+    </aside>
+  </div>`;
+}
+$('#cartRoot').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const line=b.closest('.line'),id=line.dataset.id,type=line.dataset.type;
+  const cur=cart.items().find(i=>i.id===id&&i.type===type);
+  if(b.dataset.act==='rm'){cart.remove(id,type);PM.toast('Removed from your cart')}
+  else if(cur)cart.setQty(id,type,cur.qty+(b.dataset.act==='inc'?1:-1));
+  render();
+});
+render();
+</script>
+</body>
+</html>

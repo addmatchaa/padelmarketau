@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second-Hand Rackets | PadelMarket</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+.steps-mini{display:flex;gap:18px;justify-content:center;margin-top:18px;font-size:14px;flex-wrap:wrap}
+.steps-mini span{display:inline-flex;gap:8px;align-items:center}
+.steps-mini b{width:24px;height:24px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-size:12px}
+</style>
+</head>
+<body class="inner">
+
+<!-- BANNER with Sell CTA -->
+<section class="banner dk on-dark">
+  <div class="ph" data-scene="night" data-src="images/club-social-indoor.jpg" data-pos="50% 45%"></div>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span id="crumbLast">Second-Hand</span></nav>
+  <h1 id="pageTitle">Second-Hand Rackets</h1>
+  <p id="pageSub">Pre-loved rackets from players across Australia. Check the condition, skill level and location, then contact the seller.</p>
+  <div class="btns"><a href="sell.html" class="btn btn-blue">Post an ad</a><a href="sell-your-racket.html" class="btn btn-ghost">How selling works</a></div>
+  <div class="steps-mini"><span><b>1</b>Fill in the details</span><span><b>2</b>Your racket goes live</span></div>
+</section>
+
+<!-- COLLECTION -->
+<section class="coll wrap">
+  <aside class="side" id="side" aria-label="Filters"></aside>
+  <div>
+    <div class="toolbar">
+      <span class="cnt" id="count"></span>
+      <div class="r">
+        <button class="btn btn-line btn-sm filter-btn" id="openFilters" type="button">Filters</button>
+        <label class="sr" for="sort">Sort by</label><select class="sel" id="sort"></select>
+        <div class="cols" id="cols" aria-label="Grid columns"></div>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
+    <div class="pager" id="pager"></div>
+  </div>
+</section>
+
+<!-- SELL CTA STRIP -->
+<section class="cta-strip" style="margin-bottom:80px">
+  <svg class="deco" style="right:-30px;top:-40px;width:220px;opacity:.5" viewBox="0 0 200 300"><path d="M100 12 C152 12 178 52 178 102 C178 150 148 186 120 200 L112 214 H88 L80 200 C52 186 22 150 22 102 C22 52 48 12 100 12Z" fill="none" stroke="#1769BA" stroke-width="6"/></svg>
+  <h3>Got a racket gathering dust?</h3>
+  <p>List it in two steps and it goes live on the marketplace straight away.</p>
+  <a href="sell-your-racket.html" class="btn btn-blue">Sell your racket</a>
+</section>
+
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script src="assets/collection.js"></script>
+<script>
+PM.header({active:'second'});
+PM.footer();
+const u=PM.auth.user(), mine=new URLSearchParams(location.search).get('mine');
+let items=PM.listings();
+if(mine){
+  if(!PM.auth.require('second-hand.html?mine=1'))throw 0;
+  items=items.filter(l=>l.owner===u.email);
+  $('#pageTitle').textContent='My Listings';$('#crumbLast').textContent='My Listings';
+  $('#pageSub').textContent=items.length?`You have ${items.length} active listing${items.length>1?'s':''}.`:'You haven\'t listed anything yet.';
+}
+const stateOf=l=>{const m=String(l.location||'').match(/\b(NSW|VIC|QLD|WA|SA|TAS|ACT|NT)\b/i);return m?m[1].toUpperCase():'Other'};
+PM.collection({
+  items,noun:'listings',perPage:12,priceAt:2,
+  priceOf:l=>+l.price,
+  card:l=>PM.listingCard(l,u&&l.owner===u.email),
+  leadTile:()=>`<a href="sell.html" class="sell-row"><span class="glow"></span><div style="position:relative"><h3>Got a racket to sell?</h3><p>Free to list. Your ad goes live as soon as you post it.</p></div><span class="btn btn-white btn-sm">Post an ad</span></a>`,
+  groups:[
+    {key:'condition',label:'Condition',get:l=>l.condition,options:PM.CONDITIONS},
+    {key:'level',label:'Skill level',get:l=>l.level,options:PM.LEVELS},
+    {key:'brand',label:'Brand',get:l=>l.brand},
+    {key:'state',label:'Location',get:stateOf}
+  ],
+  sorts:{
+    newest:{label:'Newest first',fn:(a,b)=>new Date(b.created)-new Date(a.created)},
+    'price-asc':{label:'Price, low to high',fn:(a,b)=>a.price-b.price},
+    'price-desc':{label:'Price, high to low',fn:(a,b)=>b.price-a.price}
+  }
+});
+PM.fillPh();
+</script>
+</body>
+</html>

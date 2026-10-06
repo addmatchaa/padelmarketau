@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in | PadelMarket</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+body{background:var(--grey)}
+.auth{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - var(--nav-h) - var(--ann-h))}
+.auth__art{position:relative;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(28px,5vw,64px);gap:16px;overflow:hidden}
+.auth__art .ph{position:absolute;inset:0}
+.auth__art::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,11,14,.92),rgba(10,11,14,.25) 70%)}
+.auth__art>*:not(.ph){position:relative;z-index:1}
+.auth__art h2{font-size:clamp(36px,4vw,60px);line-height:1;font-weight:700;font-variation-settings:var(--cond)}
+.auth__art ul{list-style:none;display:grid;gap:8px;opacity:.9}
+.auth__art li::before{content:"✓";color:var(--blue-2);font-weight:700;margin-right:10px}
+.auth__form{display:grid;place-items:center;padding:clamp(24px,5vw,64px) var(--g)}
+.box{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,36px);display:grid;gap:18px}
+.reason{display:flex;gap:10px;align-items:center;background:var(--blue-soft);color:var(--blue);border-radius:10px;padding:10px 14px;font-size:14px;font-weight:500}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--grey);border-radius:12px;padding:4px}
+.tabs button{height:42px;border-radius:9px;font-weight:600;font-size:15px;color:var(--ink-2)}
+.tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.box h1{font-size:32px;line-height:1.05;font-weight:700;font-variation-settings:var(--cond)}
+.box form{display:grid;gap:14px}
+.box .row{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.box .row a{color:var(--blue);font-weight:600}
+.box .submit{height:50px;border-radius:10px;background:var(--blue);color:#fff;font-weight:600;font-size:16px}
+.box .submit:hover{background:var(--blue-h)}
+.note{font-size:12px;color:var(--muted);text-align:center}
+.pw{position:relative}.pw input{padding-right:64px}
+.pw button{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:13px;font-weight:600;color:var(--blue)}
+@media (max-width:900px){.auth{grid-template-columns:1fr}.auth__art{min-height:260px}}
+</style>
+</head>
+<body class="inner">
+<main class="auth">
+  <section class="auth__art on-dark">
+    <div class="ph" data-scene="night" data-src="images/player-serve-night.jpg" data-pos="50% 25%"></div>
+    <span class="eyebrow">PadelMarket account</span>
+    <h2>Log in to sell<br>your racket.</h2>
+    <ul><li>List a racket in two steps</li><li>Message sellers about pre-loved rackets</li><li>Join social matches and tournaments</li></ul>
+  </section>
+  <section class="auth__form">
+    <div class="box" id="box"></div>
+  </section>
+</main>
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script>
+PM.header();PM.footer();PM.fillPh();
+const qs=new URLSearchParams(location.search);
+/* only allow redirects to pages on this site */
+const raw=qs.get('next')||'index.html';
+const next=/^[a-z0-9-]+\.html([?#][^\s]*)?$/i.test(raw)?raw:'index.html';
+const reasons={'sell.html':'Please log in to post an ad.'};
+const reason=reasons[next.split('?')[0]]||(next.startsWith('product.html')?'Log in to contact the seller.':'');
+const u=PM.auth.user();
+const box=$('#box');
+const pw=(id,ph,ac)=>`<span class="pw"><input id="${id}" type="password" required minlength="8" placeholder="${ph}" autocomplete="${ac}"><button type="button" data-show="${id}">Show</button></span>`;
+const field=(label,input,msg)=>`<label class="fld"><span>${label}</span>${input}<span class="msg">${msg}</span></label>`;
+
+function view(mode){
+  if(u){box.innerHTML=`<h1>You're logged in</h1><p>Signed in as <b>${PM.esc(u.name)}</b> (${PM.esc(u.email)}).</p><a class="btn btn-blue" href="${next}">Continue</a><button class="btn btn-line" id="lo">Log out</button>`;$('#lo').onclick=()=>{PM.auth.logout();location.reload()};return}
+  box.innerHTML=`${reason?`<div class="reason">🔒 ${reason}</div>`:''}
+  <div class="tabs" role="tablist"><button type="button" class="${mode==='in'?'on':''}" data-m="in" role="tab" aria-selected="${mode==='in'}">Log in</button><button type="button" class="${mode==='up'?'on':''}" data-m="up" role="tab" aria-selected="${mode==='up'}">Create account</button></div>
+  <h1>${mode==='in'?'Welcome back':'Join PadelMarket'}</h1>
+  <form id="authForm" novalidate>
+    ${mode==='up'?field('Full name','<input id="name" required placeholder="e.g. Sam Taylor" autocomplete="name">','Please enter your name.'):''}
+    ${field('Email','<input id="email" type="email" required placeholder="you@example.com" autocomplete="email">','Please enter a valid email.')}
+    ${field('Password',pw('pass',mode==='in'?'Your password':'At least 8 characters',mode==='in'?'current-password':'new-password'),'Password must be at least 8 characters.')}
+    ${mode==='in'?'<div class="row"><label class="ck"><input type="checkbox" checked> Keep me logged in</label><a href="#">Forgot password?</a></div>':'<label class="ck" style="font-size:14px"><input type="checkbox" id="terms" required> I agree to the Terms and Privacy Policy</label>'}
+    <button class="submit">${mode==='in'?'Log in':'Create account'}</button>
+  </form>
+  <p class="note">Prototype: any email and an 8+ character password will work. Nothing is sent to a server.</p>`;
+  $$('.tabs button',box).forEach(b=>b.onclick=()=>view(b.dataset.m));
+  $$('[data-show]',box).forEach(b=>b.onclick=()=>{const i=$('#'+b.dataset.show);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'Show':'Hide'});
+  $('#authForm').onsubmit=e=>{
+    e.preventDefault();
+    const em=$('#email'),pa=$('#pass'),nm=$('#name'),tm=$('#terms');
+    const bad=[[em,em.checkValidity()&&em.value.trim()],[pa,pa.value.length>=8],...(nm?[[nm,nm.value.trim()]]:[])];
+    bad.forEach(([el,ok])=>el.closest('.fld').classList.toggle('bad',!ok));
+    if(tm&&!tm.checked){PM.toast('Please accept the Terms to continue');return}
+    if(bad.some(([,ok])=>!ok))return;
+    const email=em.value.trim().toLowerCase();
+    const name=nm?nm.value.trim():email.split('@')[0].replace(/[._-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+    PM.auth.login({name,email});
+    location.href=next;
+  };
+}
+view(qs.get('mode')==='signup'?'up':'in');
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout | PadelMarket</title>
+<script>try{var c=JSON.parse(localStorage.getItem('pm_cart')||'[]');if(!c.length&&!location.hash)location.replace('cart.html')}catch(e){}</script>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+body{background:var(--grey)}
+.co-wrap{max-width:1180px;margin:0 auto;padding:32px var(--g) 90px}
+.co-head{margin:14px 0 26px}
+.co-head h1{font-size:clamp(40px,5vw,56px);line-height:1;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond)}
+.co-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(20px,3vw,30px);display:grid;gap:18px}
+.panel+.panel{margin-top:16px}
+.panel h2{font-size:22px;font-weight:700;font-variation-settings:var(--cond);display:flex;align-items:center;gap:12px}
+.panel h2 b{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;display:grid;place-items:center;font-variation-settings:normal}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px}
+.opt{display:flex;align-items:center;gap:14px;border:1px solid #d6d9e0;border-radius:12px;padding:14px 16px;cursor:pointer;transition:border-color .2s,background .2s}
+.opt:hover{border-color:var(--blue)}
+.opt input{width:18px;height:18px;accent-color:var(--blue);flex-shrink:0}
+.opt .t{flex:1;min-width:0}
+.opt .t b{display:block;font-weight:600}
+.opt .t small{color:var(--muted);font-size:13px}
+.opt .p{font-weight:600;font-variant-numeric:tabular-nums}
+.opt:has(input:checked){border-color:var(--blue);background:var(--blue-soft)}
+.paybox{border:1px solid #d6d9e0;border-radius:12px;overflow:hidden}
+.paybox .opt{border:0;border-radius:0}
+.paybox .opt+.opt,.paybox .opt+.pay-detail+.opt{border-top:1px solid #d6d9e0}
+.pay-detail{padding:16px;background:var(--grey);display:grid;gap:14px;border-top:1px solid #d6d9e0}
+.pay-detail[hidden]{display:none}
+.payicons{display:inline-flex;gap:6px;align-items:center}
+.cardnum{position:relative}
+.cardnum .brand{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex}
+.proto{font-size:12px;color:var(--ink-2);background:#fff;border:1px dashed #c9cfda;border-radius:8px;padding:8px 10px}
+.pp-note{font-size:14px;color:var(--ink-2);display:flex;gap:12px;align-items:center}
+.check{display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--blue)}
+.paybtn{height:56px;border-radius:12px;background:var(--blue);color:#fff;font-weight:600;font-size:17px;width:100%;transition:background .2s}
+.paybtn:hover{background:var(--blue-h)}
+.paybtn.pp{background:#FFC439;color:#0A0B0E}
+.paybtn.pp:hover{background:#f2b52a}
+.secure{display:flex;gap:8px;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
+/* summary */
+.sum{position:sticky;top:130px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:14px}
+.sum h2{font-size:22px;font-weight:700;font-variation-settings:var(--cond)}
+.it{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center}
+.it .im{position:relative;width:64px;height:76px;border-radius:10px;background:var(--grey);overflow:visible}
+.it .im img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:10px}
+.it .im b{position:absolute;top:-8px;right:-8px;min-width:22px;height:22px;border-radius:11px;background:var(--ink);color:#fff;font-size:12px;display:grid;place-items:center;padding:0 6px}
+.it .tt{min-width:0}
+.it .tt b{display:block;font-weight:600;font-size:15px;line-height:1.2}
+.it .tt small{color:var(--muted);font-size:12px}
+.it .pr{font-weight:600;font-variant-numeric:tabular-nums}
+.code{display:grid;grid-template-columns:1fr auto;gap:8px}
+.code input{height:44px;border:1px solid #d6d9e0;border-radius:10px;padding:0 12px}
+.code button{height:44px;padding:0 16px;border-radius:10px;border:1.5px solid var(--ink);font-weight:600}
+.code-msg{font-size:12px;color:var(--err);margin-top:-6px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:15px;color:var(--ink-2)}
+.row span:last-child{font-variant-numeric:tabular-nums}
+.row.total{font-size:21px;font-weight:700;color:var(--ink);border-top:1px solid var(--line);padding-top:14px}
+.gst{font-size:12px;color:var(--muted);text-align:right;margin-top:-8px}
+/* confirmation */
+.done{max-width:720px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(28px,5vw,48px);display:grid;gap:18px;text-align:center;justify-items:center}
+.done .tick{width:72px;height:72px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center}
+.done h1{font-size:clamp(36px,5vw,52px);line-height:1;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond)}
+.done p{color:var(--ink-2);max-width:480px}
+.done .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;text-align:left}
+.done .meta div{background:var(--grey);border-radius:12px;padding:12px 14px}
+.done .meta span{display:block;font-size:12px;color:var(--muted)}
+.done .meta b{font-size:15px}
+.done .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+@media (max-width:960px){.co-grid{grid-template-columns:1fr}.sum{position:static;order:-1}}
+@media (max-width:600px){.g2,.g3{grid-template-columns:1fr}.done .meta{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="inner">
+<main class="co-wrap" id="root">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="cart.html">Cart</a><span>/</span><span>Checkout</span></nav>
+  <div class="co-head"><h1>Checkout</h1></div>
+  <div class="co-grid">
+    <form id="coForm" novalidate>
+      <section class="panel">
+        <h2><b>1</b>Contact</h2>
+        <label class="fld" data-f="email"><span>Email</span><input id="email" type="email" autocomplete="email" placeholder="you@example.com"><span class="msg">Enter a valid email so we can send your receipt.</span></label>
+        <label class="check"><input type="checkbox" id="news" checked> Email me about new rackets and offers</label>
+      </section>
+
+      <section class="panel">
+        <h2><b>2</b>Delivery</h2>
+        <label class="fld"><span>Country</span><select id="country" disabled><option>Australia</option></select></label>
+        <div class="g2">
+          <label class="fld" data-f="first"><span>First name</span><input id="first" autocomplete="given-name"><span class="msg">Enter your first name.</span></label>
+          <label class="fld" data-f="last"><span>Last name</span><input id="last" autocomplete="family-name"><span class="msg">Enter your last name.</span></label>
+        </div>
+        <label class="fld" data-f="address"><span>Street address</span><input id="address" autocomplete="address-line1" placeholder="12 Example Street"><span class="msg">Enter your street address.</span></label>
+        <label class="fld"><span>Apartment, unit or suite (optional)</span><input id="address2" autocomplete="address-line2"></label>
+        <div class="g3">
+          <label class="fld" data-f="suburb"><span>Suburb</span><input id="suburb" autocomplete="address-level2"><span class="msg">Enter your suburb.</span></label>
+          <label class="fld" data-f="state"><span>State</span><select id="state" autocomplete="address-level1"><option value="">Select</option><option>ACT</option><option>NSW</option><option>NT</option><option>QLD</option><option>SA</option><option>TAS</option><option>VIC</option><option>WA</option></select><span class="msg">Choose a state.</span></label>
+          <label class="fld" data-f="postcode"><span>Postcode</span><input id="postcode" inputmode="numeric" maxlength="4" autocomplete="postal-code"><span class="msg">Use a 4 digit postcode.</span></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2><b>3</b>Shipping method</h2>
+        <div id="shipOpts" style="display:grid;gap:10px"></div>
+      </section>
+
+      <section class="panel">
+        <h2><b>4</b>Payment</h2>
+        <p style="font-size:14px;color:var(--ink-2);margin-top:-8px">All transactions are secure and encrypted.</p>
+        <div class="paybox">
+          <label class="opt"><input type="radio" name="pay" value="card" checked><span class="t"><b>Credit or debit card</b><small>Visa or Mastercard</small></span><span id="cardIcons"></span></label>
+          <div class="pay-detail" id="cardBox">
+            <label class="fld" data-f="cnum"><span>Card number</span><span class="cardnum"><input id="cnum" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" maxlength="19"><span class="brand" id="cbrand"></span></span><span class="msg" id="cnumMsg">Enter a valid Visa or Mastercard number.</span></label>
+            <div class="g2">
+              <label class="fld" data-f="cexp"><span>Expiry (MM/YY)</span><input id="cexp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5"><span class="msg">Enter a future expiry date.</span></label>
+              <label class="fld" data-f="ccvc"><span>Security code</span><input id="ccvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4"><span class="msg">Enter the 3 or 4 digit code.</span></label>
+            </div>
+            <label class="fld" data-f="cname"><span>Name on card</span><input id="cname" autocomplete="cc-name"><span class="msg">Enter the name shown on the card.</span></label>
+            <p class="proto">Prototype checkout. Please don't enter real card details. Nothing is sent or stored.</p>
+          </div>
+          <label class="opt"><input type="radio" name="pay" value="paypal"><span class="t"><b>PayPal</b><small>Pay with your PayPal account</small></span><span id="ppIcon"></span></label>
+          <div class="pay-detail" id="ppBox" hidden><p class="pp-note">After you select Continue to PayPal, you'll log in to PayPal to confirm the payment and then return here.</p></div>
+        </div>
+        <label class="check"><input type="checkbox" id="billSame" checked> Billing address is the same as delivery</label>
+        <button class="paybtn" id="payBtn" type="submit">Pay now</button>
+        <div class="secure"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure checkout · prices in AUD, GST included</div>
+      </section>
+    </form>
+
+    <aside class="sum" aria-label="Order summary">
+      <h2>Order summary</h2>
+      <div id="items" style="display:grid;gap:14px"></div>
+      <div class="code"><input id="code" placeholder="Discount code" aria-label="Discount code"><button type="button" id="applyCode">Apply</button></div>
+      <div class="code-msg" id="codeMsg"></div>
+      <div class="row"><span>Subtotal</span><span id="sSub"></span></div>
+      <div class="row"><span>Shipping</span><span id="sShip"></span></div>
+      <div class="row total"><span>Total</span><span id="sTotal"></span></div>
+      <div class="gst" id="sGst"></div>
+    </aside>
+  </div>
+</main>
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script>
+PM.header();PM.footer();
+const {cart,money2,esc,SHIPPING}=PM;
+const lines=cart.lines();
+if(!lines.length)location.replace('cart.html');
+const u=PM.auth.user();if(u)$('#email').value=u.email;
+$('#cardIcons').innerHTML=PM.payIcons(22).replace(/<svg[^>]*aria-label="PayPal"[\s\S]*?<\/svg>/,'');
+$('#ppIcon').innerHTML=PM.payIcons(22).replace(/<svg[^>]*aria-label="Visa"[\s\S]*?<\/svg>\s*<svg[^>]*aria-label="Mastercard"[\s\S]*?<\/svg>/,'');
+
+/* summary */
+$('#items').innerHTML=lines.map(l=>`<div class="it"><span class="im">${l.photo?`<img src="${l.photo}" alt="">`:''}<b>${l.qty}</b></span><span class="tt"><b>${esc(l.title)}</b><small>${esc(l.type==='listing'?'Pre-loved':'New')}</small></span><span class="pr">${money2(l.price*l.qty)}</span></div>`).join('');
+$('#shipOpts').innerHTML=SHIPPING.map((o,i)=>`<label class="opt"><input type="radio" name="ship" value="${o.id}" ${i?'':'checked'}><span class="t"><b>${o.label}</b><small>${o.eta} · tracked</small></span><span class="p">${money2(o.price)}</span></label>`).join('');
+const sub=cart.subtotal();
+const ship=()=>SHIPPING.find(o=>o.id===($('input[name=ship]:checked')||{}).value)||SHIPPING[0];
+function totals(){const s=ship(),t=sub+s.price;$('#sSub').textContent=money2(sub);$('#sShip').textContent=money2(s.price);$('#sTotal').textContent=money2(t);
+  $('#sGst').textContent=`Includes ${money2(t/11)} GST`;
+  const pp=($('input[name=pay]:checked')||{}).value==='paypal';$('#payBtn').textContent=pp?'Continue to PayPal':`Pay ${money2(t)}`;$('#payBtn').classList.toggle('pp',pp);return t}
+totals();
+$('#shipOpts').addEventListener('change',totals);
+$$('input[name=pay]').forEach(r=>r.addEventListener('change',()=>{const pp=r.value==='paypal'&&r.checked;if(r.checked){$('#cardBox').hidden=r.value!=='card';$('#ppBox').hidden=r.value!=='paypal'}totals()}));
+$('#applyCode').onclick=()=>{const v=$('#code').value.trim();$('#codeMsg').textContent=v?'This code isn\'t valid. Check it and try again.':'Enter a discount code.'};
+
+/* card helpers (formatting + checks only, nothing is stored) */
+const digits=v=>v.replace(/\D/g,'');
+const brandOf=n=>/^4/.test(n)?'visa':/^(5[1-5]|2[2-7])/.test(n)?'mc':'';
+const luhn=n=>{let s=0,d=false;for(let i=n.length-1;i>=0;i--){let x=+n[i];if(d){x*=2;if(x>9)x-=9}s+=x;d=!d}return s%10===0};
+$('#cnum').addEventListener('input',e=>{const d=digits(e.target.value).slice(0,16);e.target.value=d.replace(/(\d{4})(?=\d)/g,'$1 ');const b=brandOf(d);
+  $('#cbrand').innerHTML=b?PM.payIcons(20).match(new RegExp('<svg[^>]*aria-label="'+(b==='visa'?'Visa':'Mastercard')+'"[\\s\\S]*?</svg>'))[0]:''});
+$('#cexp').addEventListener('input',e=>{const d=digits(e.target.value).slice(0,4);e.target.value=d.length>2?d.slice(0,2)+'/'+d.slice(2):d});
+$('#ccvc').addEventListener('input',e=>{e.target.value=digits(e.target.value).slice(0,4)});
+$('#postcode').addEventListener('input',e=>{e.target.value=digits(e.target.value).slice(0,4)});
+
+const val=id=>$('#'+id).value.trim();
+const rules={
+  email:()=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email')),
+  first:()=>!!val('first'),last:()=>!!val('last'),address:()=>!!val('address'),suburb:()=>!!val('suburb'),
+  state:()=>!!val('state'),postcode:()=>/^\d{4}$/.test(val('postcode'))
+};
+const cardRules={
+  cnum:()=>{const d=digits(val('cnum'));return d.length===16&&!!brandOf(d)&&luhn(d)},
+  cexp:()=>{const m=val('cexp').match(/^(\d{2})\/(\d{2})$/);if(!m)return false;const mm=+m[1],yy=2000+ +m[2];if(mm<1||mm>12)return false;const now=new Date();return yy>now.getFullYear()||(yy===now.getFullYear()&&mm>=now.getMonth()+1)},
+  ccvc:()=>/^\d{3,4}$/.test(val('ccvc')),cname:()=>!!val('cname')
+};
+function check(map){return Object.keys(map).filter(k=>{const ok=map[k]();$(`.fld[data-f="${k}"]`).classList.toggle('bad',!ok);return !ok})}
+$('#coForm').addEventListener('input',e=>{const f=e.target.closest('.fld.bad');if(f){const k=f.dataset.f,m=rules[k]||cardRules[k];if(m&&m())f.classList.remove('bad')}});
+
+$('#coForm').onsubmit=e=>{
+  e.preventDefault();
+  const pay=($('input[name=pay]:checked')||{}).value;
+  const bad=[...check(rules),...(pay==='card'?check(cardRules):[])];
+  if(bad.length){$(`.fld[data-f="${bad[0]}"]`).scrollIntoView({behavior:'smooth',block:'center'});PM.toast('Check the highlighted fields');return}
+  const total=totals(),s=ship(),no='PM'+Math.floor(100000+Math.random()*900000);
+  $('#payBtn').disabled=true;$('#payBtn').textContent=pay==='paypal'?'Opening PayPal…':'Processing…';
+  setTimeout(()=>{
+    cart.clear();
+    const name=esc(val('first')),email=esc(val('email'));
+    $('#root').innerHTML=`<div class="done" role="status">
+      <span class="tick"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 5 5 9-10"/></svg></span>
+      <h1>Thanks, ${name}</h1>
+      <p>Your order is confirmed. We've sent a receipt to <b>${email}</b> and we'll email you the tracking details when it ships.</p>
+      <div class="meta"><div><span>Order number</span><b>${no}</b></div><div><span>Paid with</span><b>${pay==='paypal'?'PayPal':(brandOf(digits(val('cnum')))==='visa'?'Visa':'Mastercard')+' ending '+digits(val('cnum')).slice(-4)}</b></div><div><span>Total</span><b>${money2(total)}</b></div></div>
+      <div class="meta" style="grid-template-columns:1fr 1fr"><div><span>Delivering to</span><b>${esc(val('address'))}, ${esc(val('suburb'))} ${esc(val('state'))} ${esc(val('postcode'))}</b></div><div><span>Shipping</span><b>${s.label} · ${s.eta}</b></div></div>
+      <div class="btns"><a href="new-rackets.html" class="btn btn-blue">Continue shopping</a><a href="index.html" class="btn btn-line">Back to home</a></div>
+    </div>`;
+    scrollTo(0,0);
+  },pay==='paypal'?1400:900);
+};
+</script>
+</body>
+</html>

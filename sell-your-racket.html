@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sell Your Racket | PadelMarket</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+/* =========================================================
+   SELL YOUR RACKET — landing page (navbar: Sell Your Racket)
+   ========================================================= */
+.sy-hero{background:var(--black);color:#fff;position:relative;overflow:hidden}
+.sy-hero::before{content:"";position:absolute;width:720px;height:720px;right:-200px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(23,105,186,.45),transparent 62%);pointer-events:none}
+.sy-bg{position:absolute;inset:0;z-index:0}
+.sy-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,11,14,.93) 0%,rgba(10,11,14,.8) 45%,rgba(10,11,14,.55) 100%)}
+.sy-hero::before{z-index:1}
+.sy-hero__in{z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);align-items:center;padding-block:clamp(56px,7vw,100px);position:relative}
+.sy-tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.1);padding:6px 14px;border-radius:999px;margin-bottom:20px}
+.sy-tag b{width:8px;height:8px;border-radius:50%;background:var(--ball)}
+.sy-hero h1{font-size:clamp(52px,7vw,104px);line-height:.92;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond);letter-spacing:-.01em;margin-bottom:18px}
+.sy-hero h1 em{font-style:normal;color:var(--blue-2)}
+.sy-hero p.lead{font-size:18px;opacity:.85;max-width:460px;margin-bottom:30px}
+.sy-btns{display:flex;gap:12px;flex-wrap:wrap}
+.sy-proof{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap;font-size:14px;opacity:.85}
+.sy-proof span{display:inline-flex;gap:8px;align-items:center}
+.sy-proof svg{color:var(--blue-2)}
+/* photo stack */
+.stack{position:relative;height:clamp(380px,40vw,520px)}
+.stack .card{position:absolute;width:52%;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#1c1d21;box-shadow:0 30px 60px rgba(0,0,0,.45);border:4px solid #fff}
+.stack .card img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.stack .c1{left:0;top:12%;transform:rotate(-8deg);animation:float1 6s ease-in-out infinite}
+.stack .c2{left:24%;top:0;z-index:2;animation:float2 6s ease-in-out infinite}
+.stack .c3{right:0;top:16%;transform:rotate(7deg);animation:float3 6s ease-in-out infinite}
+@keyframes float1{50%{transform:rotate(-8deg) translateY(-10px)}}
+@keyframes float2{50%{transform:translateY(8px)}}
+@keyframes float3{50%{transform:rotate(7deg) translateY(-8px)}}
+.stack .chip{position:absolute;z-index:3;background:#fff;color:var(--ink);border-radius:12px;padding:10px 14px;box-shadow:0 14px 30px rgba(0,0,0,.3);font-size:13px;display:flex;gap:10px;align-items:center}
+.stack .chip i{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-style:normal;flex-shrink:0}
+.stack .chip b{display:block;font-size:14px}
+.stack .ch1{left:-4%;bottom:8%}
+.stack .ch2{right:2%;top:2%}
+/* sections */
+.sy-sec{padding-block:clamp(70px,9vw,120px)}
+.sy-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:44px}
+.sy-head h2{max-width:620px}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:58px;height:2px;background:repeating-linear-gradient(90deg,var(--blue) 0 10px,transparent 10px 18px);opacity:.35}
+.step{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s,transform .2s}
+.step:hover{border-color:var(--blue);transform:translateY(-4px)}
+.step .n{font-size:84px;line-height:.8;font-weight:800;font-variation-settings:var(--xcond);color:transparent;-webkit-text-stroke:2px var(--blue)}
+.step .ic{position:absolute;top:24px;right:24px;width:46px;height:46px;border-radius:12px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center}
+.step h3{font-size:24px;line-height:1.1;font-weight:700;font-variation-settings:var(--cond)}
+.step p{color:var(--ink-2);font-size:15px}
+.steps-cta{display:flex;justify-content:center;margin-top:36px}
+/* benefits */
+.bens{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ben{background:#fff;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line)}
+.ben .ic{width:48px;height:48px;border-radius:12px;background:var(--black);color:#fff;display:grid;place-items:center;margin-bottom:6px}
+.ben h3{font-size:21px;line-height:1.15;font-weight:700;font-variation-settings:var(--cond)}
+.ben p{color:var(--ink-2);font-size:15px}
+/* live listings marquee */
+.live{padding-block:clamp(60px,7vw,90px) 0;overflow:hidden}
+.live .mq{padding-block:6px 4px}
+.live .mq__t{gap:14px;padding-right:14px;animation-duration:60s}
+.live .mq__t{align-items:flex-start}
+.live .pc{width:250px;flex-shrink:0}
+/* faq */
+.faqg{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,6vw,90px)}
+.acc{border-bottom:1px solid var(--line)}
+.acc>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;text-align:left;font-size:18px;font-weight:600}
+.acc>button i{width:30px;height:30px;border-radius:50%;background:var(--grey);display:grid;place-items:center;font-style:normal;flex-shrink:0;transition:transform .25s,background .25s,color .25s}
+.acc.open>button i{transform:rotate(45deg);background:var(--blue);color:#fff}
+.acc .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s}
+.acc.open .ans{grid-template-rows:1fr}
+.acc .ans>div{overflow:hidden}
+.acc .ans p{padding:0 46px 20px 0;color:var(--ink-2);line-height:1.65}
+/* final cta */
+.sy-cta{margin:0 var(--g) clamp(60px,7vw,90px);border-radius:24px;background:var(--blue);color:#fff;padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;position:relative;overflow:hidden}
+.sy-cta::after{content:"";position:absolute;right:-60px;bottom:-120px;width:340px;height:340px;border-radius:50%;border:40px solid rgba(255,255,255,.08)}
+.sy-cta h2{font-size:clamp(40px,5vw,72px);line-height:.95;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond)}
+.sy-cta p{opacity:.85;margin-top:10px;max-width:460px}
+.sy-cta .sy-btns{position:relative;z-index:1}
+@media (max-width:1000px){
+  .sy-hero__in{grid-template-columns:1fr}.stack{max-width:520px;width:100%;margin:0 auto}
+  .bens{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .steps{grid-template-columns:1fr}.steps::before{display:none}
+  .faqg{grid-template-columns:1fr}
+  .sy-cta{grid-template-columns:1fr}
+  .live .pc{width:210px}
+}
+@media (max-width:520px){.bens{grid-template-columns:1fr}.stack .ch2{display:none}}
+@media (prefers-reduced-motion:reduce){.stack .card{animation:none!important}}
+</style>
+</head>
+<body class="inner">
+
+<!-- HERO -->
+<section class="sy-hero on-dark">
+  <div class="sy-bg ph" data-scene="night" data-src="images/rackets-topdown-court.jpg" data-pos="50% 50%"></div>
+  <div class="sy-hero__in wrap">
+    <div>
+      <span class="sy-tag"><b></b>Free to list · No commissions</span>
+      <h1>Sell your<br><em>racket</em></h1>
+      <p class="lead">List it for free and reach padel players right across Australia.</p>
+      <div class="sy-btns"><a href="sell.html" class="btn btn-blue">Post an ad</a><a href="second-hand.html" class="btn btn-ghost">Browse listings</a></div>
+      <div class="sy-proof">
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>No listing fees</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>Live straight away</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>Padel players only</span>
+      </div>
+    </div>
+    <div class="stack" aria-hidden="true">
+      <div class="card c1"><img src="images/rackets/adidas-metalbone.webp" alt=""></div>
+      <div class="card c2"><img src="images/rackets/nox-at10.webp" alt=""></div>
+      <div class="card c3"><img src="images/rackets/bullpadel-neuron-orange.webp" alt=""></div>
+      <div class="chip ch1"><i>✓</i><span><b>Your ad is live</b>Nox AT10 · $290</span></div>
+      <div class="chip ch2"><i>✉</i><span><b>New message</b>“Is it still available?”</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sy-sec wrap">
+  <div class="sy-head"><div><span class="eyebrow">How it works</span><h2 class="h-l" style="margin-top:14px">Three simple steps to sell your racket</h2></div></div>
+  <div class="steps">
+    <article class="step"><span class="n">01</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span><h3>Create a free account</h3><p>Sign up in under a minute. No credit card needed.</p></article>
+    <article class="step"><span class="n">02</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg></span><h3>Post your listing</h3><p>Add photos, set your price and describe the racket's condition.</p></article>
+    <article class="step"><span class="n">03</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span><h3>Connect with buyers</h3><p>Buyers contact you directly, and you handle the sale on your terms.</p></article>
+  </div>
+  <div class="steps-cta"><a href="sell.html" class="btn btn-dark">Get started</a></div>
+</section>
+
+<!-- WHY SELL HERE -->
+<section class="sy-sec" style="background:var(--grey)">
+  <div class="wrap">
+    <div class="sy-head"><div><span class="eyebrow">Why PadelMarket</span><h2 class="h-l" style="margin-top:14px">Why sell on PadelMarket?</h2></div></div>
+    <div class="bens">
+      <article class="ben"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12 12 20l-8-8V4h8Z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg></span><h3>Always free to list</h3><p>No listing fees and no commissions. Post as many rackets as you like.</p></article>
+      <article class="ben"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></span><h3>Padel-only audience</h3><p>Every visitor plays padel, so your listing reaches the right people.</p></article>
+      <article class="ben"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 11V7a5 5 0 0 1 10 0"/><rect x="4" y="11" width="16" height="10" rx="2"/></svg></span><h3>You control the sale</h3><p>Negotiate directly with buyers. No middleman and no platform fees.</p></article>
+      <article class="ben"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></span><h3>Live in minutes</h3><p>Your listing goes live as soon as you post it. No approval wait.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- LISTINGS RIGHT NOW -->
+<section class="live">
+  <div class="sy-head wrap" style="margin-bottom:26px"><div><span class="eyebrow">On the marketplace now</span><h2 class="h-l" style="margin-top:14px">Rackets other players are selling</h2></div><a href="second-hand.html" class="btn btn-line btn-sm">View all listings</a></div>
+  <div class="mq" aria-label="Recent listings"><div class="mq__t" id="liveA"></div><div class="mq__t" id="liveB" aria-hidden="true"></div></div>
+</section>
+
+<!-- FAQ -->
+<section class="sy-sec wrap">
+  <div class="faqg">
+    <div><span class="eyebrow">Common questions</span><h2 class="h-l" style="margin:14px 0 18px">Before you list</h2><p style="color:var(--ink-2);max-width:360px">Still unsure about something? Our team is happy to help at hello@padelmarket.com.au.</p></div>
+    <div id="faq"></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="sy-cta">
+  <div><h2>Ready to sell?</h2><p>Join the Australian padel players already buying and selling on PadelMarket.</p></div>
+  <div class="sy-btns"><a href="sell.html" class="btn btn-white">Post an ad</a><a href="second-hand.html" class="btn btn-ghost">Browse listings</a></div>
+</section>
+
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script>
+PM.header({active:'sell'});
+PM.footer();
+PM.fillPh();
+const rows=PM.listings().slice(0,10).map(l=>PM.listingTile(l)).join('');
+$('#liveA').innerHTML=rows;$('#liveB').innerHTML=rows;
+$$('#liveB a').forEach(a=>a.tabIndex=-1);
+const FAQ=[
+  ['Is it really free to list?','Yes. Posting a racket costs nothing, and we don\'t take a commission when it sells.'],
+  ['How do I get paid?','You agree the price and payment method directly with the buyer, then hand over or post the racket once you\'ve been paid.'],
+  ['Can I edit or remove my listing?','Yes. Go to My listings to update the details, or mark the racket as sold to take the ad down.'],
+  ['How many rackets can I list?','As many as you like. Each racket gets its own listing.']
+];
+$('#faq').innerHTML=FAQ.map(([q,a],i)=>`<div class="acc ${i?'':'open'}"><button type="button" aria-expanded="${!i}">${q}<i aria-hidden="true">+</i></button><div class="ans"><div><p>${a}</p></div></div></div>`).join('');
+$('#faq').onclick=e=>{const b=e.target.closest('.acc>button');if(!b)return;const a=b.parentElement,open=!a.classList.contains('open');$$('#faq .acc').forEach(x=>{x.classList.remove('open');x.firstElementChild.setAttribute('aria-expanded','false')});if(open){a.classList.add('open');b.setAttribute('aria-expanded','true')}};
+</script>
+</body>
+</html>

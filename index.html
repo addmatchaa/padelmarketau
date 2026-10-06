@@ -1,0 +1,685 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Padel Market AU</title>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+/* =========================================================
+   HOME — page-specific styles
+   ========================================================= */
+
+/* 02 · HERO SLIDESHOW */
+.hero{position:relative;height:100vh;min-height:620px;background:#000;overflow:hidden;color:#fff}
+.sl{position:absolute;inset:0;opacity:0;transition:opacity 1s;pointer-events:none}
+.sl.on{opacity:1;pointer-events:auto}
+.sl>.ph{position:absolute;inset:0;transform:scale(1.08);transition:transform 7s ease-out}
+.sl.on>.ph{transform:scale(1)}
+.sl::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.05) 60%),linear-gradient(180deg,rgba(0,0,0,.45),transparent 30%)}
+.sl.center::after{background:rgba(5,8,20,.5)}
+.sl__txt{position:absolute;z-index:2;left:var(--g);bottom:110px;max-width:760px}
+.sl.center .sl__txt{left:50%;bottom:50%;transform:translate(-50%,40%);text-align:center;width:min(820px,90%)}
+.sl__txt .tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);padding:6px 14px;border-radius:999px;margin-bottom:18px}
+.sl__txt .tag b{width:8px;height:8px;border-radius:50%;background:var(--ball)}
+.sl__txt h1,.sl__txt h2{font-size:clamp(46px,6.4vw,92px);line-height:.98;font-weight:700;letter-spacing:-.02em;margin-bottom:16px;font-variation-settings:var(--cond)}
+.sl__txt p{font-size:18px;font-weight:500;opacity:.9;margin-bottom:28px;max-width:560px}
+.sl.center .sl__txt p{margin-inline:auto}
+.sl__btns{display:flex;gap:12px;flex-wrap:wrap}
+.sl.center .sl__btns{justify-content:center}
+.sl__txt>*{opacity:0;transform:translateY(26px);transition:.7s .25s}
+.sl.on .sl__txt>*{opacity:1;transform:none}
+.sl.on .sl__txt>*:nth-child(2){transition-delay:.4s}.sl.on .sl__txt>*:nth-child(3){transition-delay:.55s}.sl.on .sl__txt>*:nth-child(4){transition-delay:.7s}
+.ev-info{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+.ev-info .bx{min-width:72px;text-align:center;background:#fff;color:var(--ink);border-radius:10px;padding:8px 0 6px}
+.ev-info .bx b{display:block;font-size:26px;line-height:1.05;font-weight:700;font-variant-numeric:tabular-nums}
+.ev-info .bx span{font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.hero__dots{position:absolute;z-index:3;left:var(--g);bottom:48px;display:flex;gap:10px}
+.hero__dots button{width:52px;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden;position:relative}
+.hero__dots button i{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+.hero__dots button.on i{animation:fill 6.5s linear forwards}
+.hero__dots button.done i{transform:scaleX(1)}
+@keyframes fill{to{transform:scaleX(1)}}
+.hero__ctrl{position:absolute;z-index:3;right:var(--g);bottom:34px;display:flex;gap:8px}
+.hero__ctrl button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);color:#fff;display:grid;place-items:center}
+.hero__ctrl button:hover{background:#fff;color:var(--ink)}
+.hero__count{position:absolute;z-index:3;right:var(--g);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:13px;letter-spacing:.2em;opacity:.7}
+
+/* 03 · NEW RACKETS (title left) · 04 · SECOND-HAND (title right) */
+.show{display:grid;grid-template-columns:minmax(280px,.8fr) 1.2fr;gap:clamp(30px,6vw,110px);padding-block:clamp(70px,9vw,130px);align-items:start}
+.show__head{position:sticky;top:130px;display:flex;flex-direction:column;gap:22px;max-width:440px}
+.show__head p{font-size:15px;line-height:1.6;opacity:.75;max-width:380px}
+.show__meta{display:flex;gap:28px;margin-top:6px}
+.show__meta b{display:block;font-size:30px;font-weight:700;font-variation-settings:var(--cond)}
+.show__meta span{font-size:13px;opacity:.6}
+.show__grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 18px}
+.dark{background:var(--black);color:#fff}
+.rk{position:relative;border-radius:6px;background:var(--card);aspect-ratio:1/1.12;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;isolation:isolate}
+.rk::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 35%,rgba(78,151,224,.18),transparent 70%);opacity:0;transition:opacity .4s;z-index:-1}
+.rk:hover::before{opacity:1}
+.rk__img{position:absolute;left:50%;top:6%;width:62%;height:78%;transform:translateX(-50%);transition:transform .6s cubic-bezier(.2,.7,.2,1);z-index:-1}
+.rk:hover .rk__img{transform:translateX(-50%) translateY(-10px) rotate(-6deg)}
+.rk__img svg,.rk__img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 30px 30px rgba(0,0,0,.45))}
+.rk::after{content:"";position:absolute;inset:auto 0 0;height:48%;background:linear-gradient(0deg,var(--card) 30%,transparent);z-index:-1}
+.rk h3{font-size:22px;font-weight:500;display:flex;align-items:center;gap:8px;line-height:1.2}
+.rk h3 i{width:16px;height:16px;border-radius:3px;background:var(--blue);display:grid;place-items:center;font-style:normal;font-size:10px;color:#fff;flex-shrink:0}
+.rk p{font-size:14px;opacity:.7}
+.rk .pr{display:flex;gap:8px;align-items:baseline;margin-top:8px;font-weight:600;font-size:16px}
+.rk .pr s{font-weight:400;opacity:.5;font-size:13px}
+.rk .specs{position:absolute;top:16px;left:16px;display:flex;gap:6px;flex-wrap:wrap;max-width:80%}
+.rk .specs span{font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line-d)}
+.light{background:#fff}
+.light .rk{background:var(--grey);color:var(--ink)}
+.light .rk::after{background:linear-gradient(0deg,var(--grey) 34%,transparent)}
+.light .rk__img svg{filter:drop-shadow(0 26px 24px rgba(10,20,50,.22))}
+.light .rk .cond{top:16px;left:16px}
+.light .rk{aspect-ratio:3/3.6}
+.rk__cover{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.rk__cover img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.rk:hover .rk__cover img{transform:scale(1.04)}
+.rk.has-photo .rk__cover{bottom:auto;height:58%}
+.rk.has-photo::after{display:none}
+.rk.has-photo h3{font-size:19px}
+.rk .lvl{margin-left:auto}
+.rk .loc{display:flex;align-items:center;gap:6px;font-size:13px;opacity:.75;margin-top:4px}
+.rk .loc svg{color:var(--blue)}
+.show.rev{grid-template-columns:1.2fr minmax(280px,.8fr)}
+.show.rev .show__head{order:2;justify-self:end;text-align:right;align-items:flex-end}
+.show.rev .eyebrow{flex-direction:row-reverse}
+.trust{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.trust span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:var(--blue-soft);color:var(--blue);padding:6px 12px;border-radius:999px}
+.txt-link{font-weight:600;font-size:15px;color:var(--blue);display:inline-flex;gap:6px;align-items:center}
+.txt-link:hover{text-decoration:underline}
+
+/* 05 · SELL IN 2 STEPS — pinned scroll + phone */
+.sell{height:240vh;background:var(--blue);color:#fff;position:relative}
+.sell__pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(24px,4vw,70px);padding-inline:var(--g)}
+.sell__bg{position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 120%,rgba(255,255,255,.18),transparent),repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 120px);pointer-events:none}
+.sell__left{position:relative;align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.sell__left .eyebrow::before{background:#fff}
+.sell__num{position:relative;height:clamp(160px,22vw,300px);overflow:hidden}
+.sell__num span{position:absolute;inset:0;font-size:clamp(160px,22vw,300px);line-height:1;font-weight:800;font-variation-settings:var(--xcond);color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.9);transform:translateY(100%);transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.sell__num span.on{transform:none}
+.sell__num span.past{transform:translateY(-100%)}
+.sell__bar{display:flex;gap:6px;width:min(320px,100%)}
+.sell__bar i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.25);overflow:hidden;position:relative}
+.sell__bar i b{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+.phone{position:relative;width:clamp(250px,22vw,300px);aspect-ratio:9/19;border-radius:42px;background:#0A0B0E;padding:12px;box-shadow:0 40px 80px rgba(0,0,30,.4),inset 0 0 0 2px #2a2d36}
+.phone::before{content:"";position:absolute;top:20px;left:50%;width:84px;height:24px;border-radius:14px;background:#000;transform:translateX(-50%);z-index:3}
+.screen{position:absolute;inset:12px;border-radius:32px;background:#fff;color:var(--ink);overflow:hidden;padding:52px 14px 14px;opacity:0;transform:scale(.96) translateY(10px);transition:.5s;font-size:11px}
+.screen.on{opacity:1;transform:none}
+.screen .crumb{font-size:9px;color:var(--muted);margin-bottom:2px}
+.screen h5{font-size:17px;font-weight:800;font-variation-settings:var(--xcond);text-transform:uppercase;letter-spacing:.01em}
+.screen .sub{font-size:9.5px;color:var(--muted);margin-bottom:10px}
+.mf{display:grid;gap:7px}
+.mf label{display:grid;gap:3px;font-weight:600;font-size:9.5px}
+.mf label i{color:var(--err);font-style:normal}
+.mf .in{height:24px;border:1px solid #d6d9e0;border-radius:6px;display:flex;align-items:center;padding:0 7px;font-weight:400;font-size:10px;color:var(--ink)}
+.mf .two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mf .pills{display:flex;gap:4px;flex-wrap:wrap}
+.mf .pills span{font-weight:500;font-size:9px;padding:3px 7px;border-radius:5px;border:1px solid #d6d9e0}
+.mf .pills span.on{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+.mf .ph-row{display:flex;gap:5px}
+.mf .ph-row div{width:38px;height:38px;border-radius:6px;background:var(--grey);display:grid;place-items:center;overflow:hidden}
+.mf .ph-row div.add{border:1px dashed #b8bdc8;color:var(--muted)}
+.s-btn{height:30px;border-radius:7px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:600;font-size:11px;margin-top:4px}
+.live{display:flex;gap:8px;align-items:center;background:var(--blue-soft);color:var(--blue);border-radius:10px;padding:9px 10px;font-weight:600;font-size:11px;margin-bottom:10px}
+.live i{width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mini{font-size:9.5px;line-height:1.3}
+.mini .im{aspect-ratio:1;border-radius:8px;background:var(--grey);position:relative;margin-bottom:5px;display:grid;place-items:center}
+.mini .im svg{height:84%;width:auto}
+.mini .im .c{position:absolute;top:4px;left:4px;font-size:7.5px;font-weight:700;background:var(--blue);color:#fff;padding:1px 5px;border-radius:3px}
+.mini b{display:block;font-size:10px}
+.mini small{color:var(--muted);font-size:8.5px}
+.mini.me .im{box-shadow:0 0 0 2px var(--blue)}
+.mini .p{display:flex;justify-content:space-between;align-items:center;margin-top:2px;font-weight:700;font-size:10.5px}
+.mini .p span{font-size:7.5px;font-weight:600;background:var(--blue-soft);color:var(--blue);padding:1px 5px;border-radius:999px}
+.sell__right{position:relative;height:300px}
+.step{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:12px;opacity:0;transform:translateY(30px);transition:.5s;pointer-events:none}
+.step.on{opacity:1;transform:none;pointer-events:auto}
+.step h3{font-size:clamp(30px,3vw,44px);line-height:1.05;font-weight:700;font-variation-settings:var(--cond)}
+.step p{font-size:16px;opacity:.85;max-width:380px}
+.step ul{list-style:none;display:grid;gap:6px;font-size:14px}
+.step li::before{content:"✓";margin-right:8px;font-weight:700}
+.step .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+/* 04 · PRE-LOVED — feature card + carousel */
+.pl{padding-block:clamp(70px,9vw,120px);background:#fff;overflow:hidden}
+.pl .sh{margin-bottom:44px}
+.pl__cta{display:flex;gap:10px;justify-content:center;margin-top:22px;position:relative}
+.feat{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:20px;padding-left:var(--g);align-items:start}
+.feat-card{aspect-ratio:3/4.3;border-radius:16px;position:relative;overflow:hidden;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;box-shadow:0 18px 40px rgba(10,20,50,.12)}
+.feat-card .ph{position:absolute;inset:0;transition:transform .7s}
+.feat-card:hover .ph{transform:scale(1.05)}
+.feat-card::after{content:"";position:absolute;inset:0;background:rgba(5,10,25,.42)}
+.feat-card>*:not(.ph){position:relative;z-index:1}
+.feat-card h3{font-size:36px;line-height:1;font-weight:700;font-variation-settings:var(--cond)}
+.feat-card p{font-size:14px;opacity:.9;margin-bottom:12px}
+.rail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-right:var(--g);padding-bottom:4px}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{flex:0 0 clamp(220px,19vw,262px);scroll-snap-align:start}
+.rail-nav{display:flex;justify-content:center;gap:8px;margin-top:26px}
+.rail-nav button{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;transition:background .2s,opacity .2s}
+.rail-nav button:hover{background:var(--grey)}
+.rail-nav button:disabled{opacity:.3;background:none;cursor:default}
+.rk.has-photo .specs span{background:rgba(10,11,14,.72);border-color:transparent;color:#fff}
+@media (max-width:900px){.feat{grid-template-columns:1fr;padding:0}.feat-card{margin:0 var(--g);aspect-ratio:16/10}.rail{padding-inline:var(--g)}}
+
+/* 07 · community micro-animations */
+.match{transition:border-color .3s,background .3s}
+.match.joined{border-color:var(--blue-2);background:rgba(78,151,224,.10)}
+.avs i.pop{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.match .full{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ball);margin-left:6px;opacity:0;transition:opacity .3s}
+.match.is-full .full{opacity:1}
+.joinfeed{height:22px;overflow:hidden;font-size:12px;color:var(--blue-2);font-weight:600}
+.joinfeed span{display:block;animation:feed .45s ease-out}
+@keyframes feed{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+.club .cnt{display:inline-block;transition:color .3s}
+.club .cnt.bump{color:var(--blue-2)}
+.club .plus{position:absolute;right:10px;top:8px;font-size:11px;font-weight:800;color:var(--blue-2);opacity:0}
+.club.bump .plus{animation:plus 1.2s ease-out}
+@keyframes plus{0%{opacity:0;transform:translateY(6px)}25%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.club{position:relative}
+.slots i{width:0!important;transition:width 1.6s cubic-bezier(.2,.7,.2,1)}
+.comm.go .slots i{width:72%!important}
+.podium .col{transition:height 1s cubic-bezier(.2,.7,.2,1)}
+.comm:not(.go) .podium .col{height:0!important;padding-top:0}
+.pd .av{transition:transform .5s cubic-bezier(.3,1.6,.5,1) .6s,opacity .4s .6s}
+.comm:not(.go) .pd .av{transform:scale(0);opacity:0}
+.closes{font-size:13px;opacity:.8;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.comm:not(.go) .podium .col{height:auto!important}.slots i{width:72%!important}}
+
+/* 06 · PLAY WITH PURPOSE */
+.purpose{height:300vh;position:relative;background:#e9edf2}
+.purpose__pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.purpose__bg{position:absolute;inset:0}
+.purpose__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#eef1f5 0%,rgba(238,241,245,.4) 25%,transparent 45%)}
+.band{position:absolute;left:var(--g);right:var(--g);top:58%;height:clamp(96px,10vw,140px);border:1.5px solid rgba(255,255,255,.75);border-radius:14px;display:flex;align-items:center;overflow:hidden;backdrop-filter:blur(2px);transition:opacity .4s}
+.band .mq__t{animation-duration:30s;align-items:center}
+.band .w{display:inline-flex;align-items:center;gap:clamp(28px,3vw,52px);padding-right:clamp(28px,3vw,52px);font-size:clamp(48px,6vw,90px);font-weight:500;color:#fff;letter-spacing:-.01em}
+.band .w svg{width:.6em;height:.6em;flex-shrink:0}
+.lensc{position:absolute;inset:0;z-index:2;clip-path:circle(80px at 50% 65%)}
+.lensc .ph{position:absolute;inset:0}
+.lensc::after{content:"";position:absolute;inset:0;background:rgba(4,8,22,.45);opacity:0;transition:opacity .3s}
+.lensc.dim::after{opacity:1}
+.purpose__txt{position:absolute;z-index:3;inset:0;display:grid;place-content:center;text-align:center;color:#fff;gap:16px;padding:0 var(--g);opacity:0;transform:translateY(30px);transition:.6s;pointer-events:none}
+.purpose__txt.on{opacity:1;transform:none;pointer-events:auto}
+.purpose__txt h2{font-size:clamp(48px,6vw,96px);line-height:1;font-weight:600;letter-spacing:-.02em}
+.purpose__txt p{max-width:560px;margin:0 auto 10px;font-size:17px;opacity:.9}
+.purpose__txt .btn{justify-self:center}
+
+/* 07 · COMMUNITY */
+.comm{padding-block:clamp(70px,9vw,120px)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:36px;flex-wrap:wrap}
+.bento{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px}
+.bx{border-radius:20px;background:var(--card);padding:24px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line-d)}
+.bx__lbl{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.bx h3{font-size:26px;line-height:1.1;font-weight:600;font-variation-settings:var(--cond)}
+.bx .more{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--blue-2)}
+.bx-tour{grid-row:span 2;padding:0;background:#000}
+.bx-tour .ph{position:absolute;inset:0}
+.bx-tour::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9) 30%,rgba(0,0,0,.1) 75%)}
+.bx-tour>.in{position:relative;z-index:1;margin-top:auto;padding:28px;display:flex;flex-direction:column;gap:14px}
+.bx-tour .liveb{position:absolute;top:22px;left:22px;z-index:1;display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:700;background:var(--blue);padding:5px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.06em}
+.bx-tour .liveb i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.bx-tour h3{font-size:clamp(34px,3.2vw,48px)}
+.tmeta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tmeta div{border:1px solid var(--line-d);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.04)}
+.tmeta span{font-size:11px;opacity:.6;text-transform:uppercase;letter-spacing:.06em}
+.tmeta b{display:block;font-size:15px}
+.slots{height:6px;border-radius:3px;background:rgba(255,255,255,.15)}
+.slots i{display:block;height:100%;width:72%;border-radius:3px;background:var(--blue-2)}
+.match{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line-d)}
+.match .t{font-size:13px;line-height:1.3}
+.match .t b{display:block;font-size:14px}
+.match .lv{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:rgba(78,151,224,.18);color:var(--blue-2)}
+.avs{display:flex;margin-left:auto}
+.avs i{width:26px;height:26px;border-radius:50%;border:2px solid var(--card);margin-left:-8px;display:grid;place-items:center;font-size:10px;font-style:normal;font-weight:700;color:#fff}
+.avs i.e{background:transparent;border:1.5px dashed rgba(255,255,255,.4)}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--line-d)}
+.filters button.on{background:#fff;color:var(--ink)}
+.clubs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.club{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line-d);font-size:13px;line-height:1.25}
+.club .lg{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0}
+.club small{opacity:.6;display:block}
+.podium{display:grid;grid-template-columns:1fr 1.1fr 1fr;align-items:end;gap:8px;margin-top:6px}
+.pd{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pd .av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;border:2px solid rgba(255,255,255,.2)}
+.pd.first .av{width:58px;height:58px;border-color:var(--ball);box-shadow:0 0 0 4px rgba(215,245,74,.15)}
+.pd .nm{font-size:13px;font-weight:600;line-height:1.2}
+.pd .pt{font-size:11px;opacity:.6}
+.pd .col{width:100%;border-radius:10px 10px 0 0;background:linear-gradient(180deg,var(--blue),rgba(23,105,186,.2));display:grid;place-items:start center;padding-top:8px;font-size:24px;font-weight:800;font-variation-settings:var(--cond)}
+.pd.first .col{height:110px}.pd.second .col{height:80px;opacity:.85}.pd.third .col{height:60px;opacity:.7}
+
+/* 08 · TESTIMONIALS */
+.testi{background:var(--grey);padding-block:clamp(70px,9vw,120px);overflow:hidden}
+.tm{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:20px;height:640px}
+.tm__big{border-radius:var(--r);box-shadow:0 30px 60px rgba(10,20,50,.12)}
+.tm__col{overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent)}
+.tm__tr{display:flex;flex-direction:column;gap:20px;animation:up 40s linear infinite}
+.tm__col.dn .tm__tr{animation-name:dn}
+.tm__col:hover .tm__tr{animation-play-state:paused}
+@keyframes up{to{transform:translateY(-50%)}}
+@keyframes dn{from{transform:translateY(-50%)}to{transform:none}}
+.rv{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.rv .st{color:var(--blue);letter-spacing:3px;margin-bottom:8px}
+.rv p{font-size:16px;line-height:1.45;margin-bottom:14px}
+.rv .who{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.rv .who i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px}
+.rv .who small{font-weight:500;opacity:.55;margin-left:auto;font-size:12px}
+.rv .vf{width:15px;height:15px;border-radius:50%;background:var(--blue);display:grid;place-items:center}
+.tm__ph{border-radius:14px;aspect-ratio:4/3}
+
+/* 10 · CONTACT */
+.contact{background:var(--black);color:#fff;padding:clamp(60px,8vw,110px) var(--g);border-top:1px solid var(--line-d)}
+.ct{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,6vw,90px)}
+.ct__info{display:flex;flex-direction:column;gap:22px}
+.ct__info p{opacity:.7;max-width:420px}
+.ct__list{display:grid;gap:10px}
+.ct__list>*{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:var(--card);border:1px solid var(--line-d)}
+.ct__list .ic{width:40px;height:40px;border-radius:10px;background:rgba(23,105,186,.22);color:var(--blue-2);display:grid;place-items:center;flex-shrink:0}
+.ct__list small{display:block;opacity:.6;font-size:12px}
+.ct__list b{font-weight:600}
+.cform{background:var(--card);border:1px solid var(--line-d);border-radius:20px;padding:clamp(20px,3vw,36px);display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cform label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;opacity:.9}
+.cform .full{grid-column:1/-1}
+.cform input,.cform textarea{height:48px;border-radius:10px;border:1px solid var(--line-d);background:var(--black-2);padding:0 14px;color:#fff;outline:none;transition:border-color .2s}
+.cform textarea{height:120px;padding:12px 14px;resize:vertical}
+.cform input:focus,.cform textarea:focus{border-color:var(--blue-2)}
+.topics{display:flex;gap:8px;flex-wrap:wrap}
+.topics label{flex-direction:row}
+.topics input{position:absolute;opacity:0;pointer-events:none}
+.topics span{display:inline-block;padding:8px 14px;border-radius:999px;border:1px solid var(--line-d);font-size:13px;cursor:pointer;transition:.2s}
+.topics input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff}
+.copy{background:var(--black);color:rgba(255,255,255,.5);font-size:12px;text-align:center;padding:18px var(--g) 26px;font-family:ui-monospace,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase}
+
+/* responsive (home) */
+@media (max-width:1100px){
+  .bento{grid-template-columns:1fr 1fr}.bx-tour{grid-column:1/-1;grid-row:auto;min-height:480px}
+  .tm{grid-template-columns:1fr 1fr}.tm__big{display:none}
+}
+@media (max-width:900px){
+  .show,.show.rev{grid-template-columns:1fr}
+  .show__head,.show.rev .show__head{position:static;order:0;text-align:left;align-items:flex-start;justify-self:start}
+  .show.rev .eyebrow{flex-direction:row}.trust{justify-content:flex-start}
+  /* Sell in 2 steps · same pinned, scroll driven experience as desktop, stacked vertically */
+  .sell{height:240vh}
+  .sell__pin{height:100vh;height:100svh;grid-template-columns:1fr;grid-template-rows:auto auto auto;align-content:center;justify-items:center;text-align:center;gap:14px;padding:28px var(--g) 20px}
+  .sell__left{align-self:auto;align-items:center;gap:10px}
+  .sell__left .h-l{font-size:clamp(24px,6.4vw,32px);max-width:340px!important}
+  .sell__num{display:none}
+  .sell__bar{width:140px}
+  .phone{text-align:left;width:250px;transform:scale(var(--ps,.8));transform-origin:top center;margin-bottom:calc((var(--ps,.8) - 1) * 527px)}
+  .sell__right{height:var(--sr-h,150px);width:100%;max-width:420px}
+  .step{align-items:center;gap:8px}
+  .step h3{font-size:26px}
+  .step p{font-size:14px;max-width:340px}
+  .step ul{display:none}
+  .step .btns{justify-content:center;margin-top:4px}
+  .step .btns .btn{height:42px;padding:0 18px;font-size:14px}
+  .ct{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .show__grid{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr}.bx-lead{grid-column:auto!important}
+  .bx-lead>div{grid-template-columns:1fr!important}
+  .tm{grid-template-columns:1fr;height:540px}.tm__col.dn{display:none}
+  .cform{grid-template-columns:1fr}
+  .ev-info .bx{min-width:62px}
+  .hero__count{display:none}
+  .band .w{font-size:44px}
+  .tmeta{grid-template-columns:1fr 1fr}
+}
+</style>
+<!-- 01 · ANNOUNCEMENT + NAVBAR are injected by assets/app.js → PM.header() -->
+
+<main>
+<!-- =========================================================
+     02 · HERO SLIDESHOW — (a) new rackets (b) second-hand (c) nearest event
+     ========================================================= -->
+<section class="hero" id="hero">
+  <div class="sl on">
+    <div class="ph" data-scene="day" data-src="images/rackets-topdown-court.jpg" data-pos="60% 40%"></div>
+    <div class="sl__txt">
+      <span class="tag"><b></b>New season 2026</span>
+      <h1>Shop New Rackets</h1>
+      <p>The latest padel rackets, 100% authentic and shipped Australia-wide.</p>
+      <div class="sl__btns"><a href="new-rackets.html" class="btn btn-white">Shop now</a></div>
+    </div>
+  </div>
+  <div class="sl center">
+    <div class="ph" data-scene="night" data-src="images/indoor-courts-tent.jpg" data-pos="50% 60%"></div>
+    <div class="sl__txt">
+      <span class="tag"><b></b>Second-hand marketplace</span>
+      <h2>Buy. Sell. Rally Again.</h2>
+      <p>Pre-loved rackets from players near you, or list yours in a couple of minutes.</p>
+      <div class="sl__btns"><a href="second-hand.html" class="btn btn-blue">Buy second-hand</a><a href="sell-your-racket.html" class="btn btn-ghost">Sell your racket</a></div>
+    </div>
+  </div>
+  <div class="sl">
+    <div class="ph" data-scene="dusk" data-src="images/serve-closeup.jpg" data-pos="45% 40%"></div>
+    <div class="sl__txt">
+      <span class="tag"><b></b>Next tournament · 18 to 19 Oct · Melbourne</span>
+      <h2>PadelMarket Open</h2>
+      <div class="ev-info" data-cd>
+        <div class="bx"><b data-d>00</b><span>Days</span></div><div class="bx"><b data-h>00</b><span>Hrs</span></div><div class="bx"><b data-m>00</b><span>Mins</span></div><div class="bx"><b data-s>00</b><span>Secs</span></div>
+      </div>
+      <div class="sl__btns"><a href="#community" class="btn btn-blue">Enter now</a><a href="#community" class="btn btn-ghost">View schedule</a></div>
+    </div>
+  </div>
+  <div class="hero__count" id="heroCount">01 / 03</div>
+  <div class="hero__dots" id="heroDots"></div>
+  <div class="hero__ctrl">
+    <button data-dir="-1" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button data-dir="1" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+</section>
+
+<!-- =========================================================
+     03 · NEW RACKETS — title left (sticky) · showcase right → new-rackets.html
+     ========================================================= -->
+<section class="dark" id="new">
+  <div class="show wrap">
+    <div class="show__head rv-up">
+      <span class="eyebrow">New rackets</span>
+      <h2 class="h-xl">Pick your<br>weapon</h2>
+      <p>Brand-new rackets chosen by playing style, from first-timers to competition players. All authentic, all with manufacturer warranty.</p>
+      <a href="new-rackets.html" class="btn-sq">View all new rackets</a>
+    </div>
+    <div class="show__grid" id="newGrid"></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     04 · PRE-LOVED — feature card left · carousel right (cards mirror the Post an Ad form)
+     ========================================================= -->
+<section class="pl" id="second">
+  <div class="sh wrap"><div class="wm">Pre-loved</div><h2>Pre-loved, still lethal</h2><div class="dv">✦</div>
+    <div class="pl__cta"><a href="second-hand.html" class="btn btn-dark btn-sm">Shop all</a><a href="sell-your-racket.html" class="btn btn-line btn-sm">Sell your racket</a></div></div>
+  <div class="feat">
+    <a href="second-hand.html" class="feat-card"><div class="ph" data-scene="day" data-src="images/rackets-flatlay-balls.jpg" data-pos="50% 50%"></div><h3>Second-Hand</h3><p>Pre-loved rackets from players near you</p><span class="btn btn-white btn-sm">View all</span></a>
+    <div style="min-width:0"><div class="rail" id="secRail"></div>
+      <div class="rail-nav"><button type="button" id="secPrev" aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" id="secNext" aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     05 · SELL IN 2 STEPS — pinned scroll + phone mockup
+     ========================================================= -->
+<section class="sell" id="sell">
+  <div class="sell__pin">
+    <div class="sell__bg"></div>
+    <div class="sell__left">
+      <span class="eyebrow">Sell in 2 steps</span>
+      <h2 class="h-l" style="max-width:440px">Your old racket could fund your next one.</h2>
+      <div class="sell__num" id="sellNum"><span class="on">01</span><span>02</span></div>
+      <div class="sell__bar" id="sellBar"><i><b></b></i><i><b></b></i></div>
+    </div>
+
+    <div class="phone" aria-hidden="true">
+      <!-- screen 1: fill in the form -->
+      <div class="screen on">
+        <div class="crumb">Home / Second-Hand / Post an Ad</div>
+        <h5>Post an ad</h5><div class="sub">Your listing goes live immediately.</div>
+        <div class="mf">
+          <label>Ad title <i>*</i><span class="in">Nox AT10, new with tags</span></label>
+          <div class="two"><label>Brand <i>*</i><span class="in">Nox ▾</span></label><label>Model <i>*</i><span class="in">AT10</span></label></div>
+          <label>Asking price (AUD) <i>*</i><span class="in">$ 290</span></label>
+          <label>Condition <i>*</i><span class="pills"><span class="on">Like New</span><span>Good</span><span>Fair</span><span>Well Used</span></span></label>
+          <label>Skill level <i>*</i><span class="pills"><span>Beginner</span><span>Intermediate</span><span class="on">Advanced</span><span>Pro</span></span></label>
+          <label>Location<span class="in">Richmond, VIC</span></label>
+          <label>Photos<span class="ph-row"><div id="mini1"></div><div id="mini2"></div><div class="add">+</div></span></label>
+          <div class="s-btn">Post Listing</div>
+        </div>
+      </div>
+      <!-- screen 2: live on the marketplace -->
+      <div class="screen">
+        <div class="crumb">Home / Second-Hand</div>
+        <h5>Second-hand</h5><div class="sub">8 rackets near you</div>
+        <div class="live"><i>✓</i>Your racket is live on the marketplace</div>
+        <div class="mini-grid" id="miniGrid"></div>
+      </div>
+    </div>
+
+    <div class="sell__right">
+      <div class="step on"><h3>Fill in the details</h3><p>Add a title, brand, model, asking price, condition and skill level, plus a few photos. It takes about two minutes.</p><ul><li>Log in once, list as many as you like</li><li>First photo becomes your cover image</li></ul></div>
+      <div class="step"><h3>Your racket is live</h3><p>Your listing appears on the marketplace straight away. Buyers can find it by condition, level, brand and location.</p><ul><li>No listing fees</li><li>Edit or mark as sold anytime</li></ul>
+        <div class="btns"><a href="sell-your-racket.html" class="btn btn-white">Sell your racket</a><a href="second-hand.html" class="btn btn-ghost">Browse pre-loved</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     06 · PLAY WITH PURPOSE — marquee band + circle expand
+     ========================================================= -->
+<section class="purpose" id="purpose">
+  <div class="purpose__pin">
+    <div class="purpose__bg ph" data-scene="day" data-src="images/indoor-courts-render.jpg" data-pos="50% 40%"></div>
+    <div class="band" id="band"><div class="mq__t" id="bandT"></div><div class="mq__t" id="bandT2" aria-hidden="true"></div></div>
+    <div class="lensc" id="lensc"><div class="ph" data-scene="night" data-src="images/player-outdoor-court.jpg" data-pos="50% 50%"></div></div>
+    <div class="purpose__txt" id="purposeTxt">
+      <h2>Play with Purpose</h2>
+      <p>We want every player in Australia to have the right gear, new or pre-loved, and a community that keeps them coming back to the court.</p>
+      <a href="#community" class="btn btn-white">Meet the community</a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     07 · COMMUNITY TEASER — tournament · social match · clubs · top 3
+     ========================================================= -->
+<section class="dark comm on-dark" id="community">
+  <div class="wrap">
+    <div class="sec-head rv-up">
+      <div><span class="eyebrow">Community</span><h2 class="h-l" style="margin-top:14px">Better when<br>we play together.</h2></div>
+      <a href="#" class="btn-sq">Join the community</a>
+    </div>
+    <div class="bento">
+      <article class="bx bx-tour rv-up">
+        <div class="ph" data-scene="dusk" data-src="images/player-serve-night.jpg" data-pos="50% 22%"></div>
+        <span class="liveb"><i></i>Entries open</span>
+        <div class="in">
+          <div class="bx__lbl">Next tournament</div>
+          <h3>PadelMarket Open · Melbourne</h3>
+          <div class="tmeta"><div><span>Dates</span><b>18 to 19 Oct</b></div><div><span>Venue</span><b>Docklands</b></div><div><span>Divisions</span><b>Men · Mixed</b></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;opacity:.8"><span>Teams entered</span><span><b id="teamsN">0</b> / 64</span></div>
+          <div class="slots"><i></i></div>
+          <div class="closes" id="closes">Entries close in</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px"><a href="#" class="btn btn-blue">Enter a team</a><a href="#" class="btn btn-ghost">All events</a></div>
+        </div>
+      </article>
+      <article class="bx rv-up">
+        <div class="bx__lbl">Social match <span>This weekend</span></div>
+        <h3>Find a partner</h3>
+        <div class="filters" id="lvF"><button class="on">All</button><button>Beginner</button><button>Intermediate</button><button>Advanced</button></div>
+        <div class="joinfeed" id="joinFeed" aria-live="polite"></div>
+        <div id="matchList" style="display:grid;gap:8px"></div>
+        <a href="#" class="more">Create a match</a>
+      </article>
+      <article class="bx rv-up">
+        <div class="bx__lbl">Clubs <span>32 active</span></div>
+        <h3>Join a club near you</h3>
+        <div class="clubs" id="clubs"></div>
+        <a href="#" class="more">Explore clubs</a>
+      </article>
+      <article class="bx bx-lead rv-up" style="grid-column:span 2">
+        <div class="bx__lbl">Leaderboard <span>October 2026</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:24px;align-items:end">
+          <div style="display:flex;flex-direction:column;gap:10px;align-self:center">
+            <h3>Top 3 this month</h3>
+            <p style="opacity:.65;font-size:14px">Points from tournaments and social matches. Play more, climb higher.</p>
+            <a href="#" class="more">See full rankings</a>
+          </div>
+          <div class="podium">
+            <div class="pd second"><span class="av" style="background:#3b4b7a">LB</span><span class="nm">Liam B.</span><span class="pt">1,940 pts</span><div class="col">2</div></div>
+            <div class="pd first"><span class="av" style="background:var(--blue)">CN</span><span class="nm">Chloe N.</span><span class="pt">2,315 pts</span><div class="col">1</div></div>
+            <div class="pd third"><span class="av" style="background:#2b3550">AK</span><span class="nm">Arjun K.</span><span class="pt">1,802 pts</span><div class="col">3</div></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     08 · TESTIMONIALS
+     ========================================================= -->
+<section class="testi">
+  <div class="wrap">
+    <div class="sh"><div class="wm">Verified Players</div><h2>What Players Say</h2><div class="dv">✦</div></div>
+    <div class="tm">
+      <div class="tm__big ph" data-scene="day" data-src="images/social-night-overhead.jpg" data-pos="18% 55%"></div>
+      <div class="tm__col"><div class="tm__tr" id="tmA"></div></div>
+      <div class="tm__col dn"><div class="tm__tr" id="tmB"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · FINAL CTA (shared footer grid) -->
+<div id="pmFooter"></div>
+
+<div class="copy">PadelMarket.com.au <span id="yr"></span> © · Privacy · Terms · Shipping</div>
+</main>
+
+<script src="assets/app.js"></script>
+<script>
+const {NEW,listings,money,esc,racketSvg,racketShape,condClass,timeAgo,I}=PM;
+PM.header({clear:true});
+PM.footer('#pmFooter',{bottom:false});
+$('#yr').textContent=new Date().getFullYear();
+
+/* ---------- 03 New rackets (first 4) → product page ---------- */
+$('#newGrid').innerHTML=NEW.slice(0,4).map(PM.productCard).join('');
+
+/* ---------- 04 Pre-loved carousel (latest 8) ---------- */
+$('#secRail').innerHTML=listings().slice(0,8).map(PM.listingTile).join('');
+(()=>{const r=$('#secRail'),p=$('#secPrev'),n=$('#secNext');const step=()=>(r.firstElementChild?.offsetWidth||260)+20;
+  p.onclick=()=>r.scrollBy({left:-step(),behavior:'smooth'});n.onclick=()=>r.scrollBy({left:step(),behavior:'smooth'});
+  const upd=()=>{p.disabled=r.scrollLeft<4;n.disabled=r.scrollLeft+r.clientWidth>=r.scrollWidth-4};r.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd()})();
+
+/* ---------- 05 phone mockups ---------- */
+const RK='images/rackets/';
+$('#mini1').innerHTML=`<img src="${RK}nox-at10.webp" alt="" style="width:100%;height:100%;object-fit:cover">`;
+$('#mini2').innerHTML=`<img src="${RK}nox-at10.webp" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 80%">`;
+$('#miniGrid').innerHTML=[{t:'Nox AT10',p:290,c:'Like New',l:'Advanced',img:'nox-at10',me:1},{t:'Babolat Technical Viper',p:310,c:'Like New',l:'Pro',img:'babolat-technical-viper'},{t:'Bullpadel Neuron',p:280,c:'Like New',l:'Advanced',img:'bullpadel-neuron-orange'},{t:'Adidas Cross It Light',p:150,c:'Like New',l:'Beginner',img:'adidas-cross-it-light'}]
+  .map(x=>`<div class="mini ${x.me?'me':''}"><div class="im" style="overflow:hidden"><span class="c" style="z-index:1">${x.c}</span><img src="${RK}${x.img}.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%"></div><b>${x.t}</b><div class="p">${money(x.p)}<span>${x.l}</span></div></div>`).join('');
+
+/* ---------- 06 band text ---------- */
+const ast='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/></svg>';
+const ballI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M4.5 5.5c4 3 4 10 0 13M19.5 5.5c-4 3-4 10 0 13"/></svg>';
+const gap='<span style="width:clamp(180px,13vw,220px);flex-shrink:0"></span>';
+$('#bandT').innerHTML=$('#bandT2').innerHTML=`<span class="w">Smash Harder ${ast} Play Together ${gap} ${ballI} Go Further ${ast} Rally Longer ${ballI}</span>`.repeat(2);
+
+/* ---------- 07 community data ---------- */
+const MATCHES=[['Beginner','Sat 7am · Richmond','3/4',['#1769BA','#3b4b7a','#4E97E0']],['Intermediate','Sat 6pm · Alexandria','2/4',['#2b3550','#1769BA']],['Advanced','Sun 6:30am · Docklands','3/4',['#4E97E0','#2b3550','#3b4b7a']]];
+$('#matchList').innerHTML=MATCHES.map(([lv,t,sl,av])=>`<div class="match" data-lv="${lv}"><div class="t"><b>${t}</b><span class="lv">${lv}</span><span class="full">Full</span></div><div class="avs">${av.map((c,i)=>`<i style="background:${c}">${'ABCDEFG'[i]}</i>`).join('')}${'<i class="e"></i>'.repeat(4-av.length)}</div></div>`).join('');
+$('#lvF').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#lvF button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('#matchList .match').forEach(m=>m.style.display=b.textContent==='All'||m.dataset.lv===b.textContent?'':'none')});
+const CLUBS=[['MP','Melbourne Padel','214 members','#1769BA'],['SH','Sydney Harbour Padel','168 members','#fff'],['BP','Brisbane Padel Co.','132 members','#4E97E0'],['PW','Perth West Padel','98 members','#2b3550']];
+$('#clubs').innerHTML=CLUBS.map(([a,n,m,c])=>`<div class="club"><span class="plus">+1</span><span class="lg" style="background:${c};color:${c==='#fff'?'#0A0B0E':'#fff'}">${a}</span><span>${n}<small><b class="cnt">${parseInt(m)}</b> members</small></span></div>`).join('');
+
+/* ---------- 08 testimonials ---------- */
+const REV=[
+  ['Chloe N.','Ordered on Monday, played with it on Wednesday. Authentic, sealed, and my smash has never felt better.','#1769BA','Buyer'],
+  ['Liam B.','Listed my old racket on Sunday night and it sold by Thursday. Dead easy.','#3b4b7a','Seller'],
+  ['Mia T.','Joined a beginner social match and found a regular partner. Best thing I did this year!','#4E97E0','Community'],
+  ['Arjun K.','The second-hand racket matched the listing exactly. Condition, photos, the lot.','#2b3550','Buyer'],
+  ['Hannah W.','My first tournament was the PadelMarket Open. Well run and heaps of fun.','#1769BA','Player'],
+  ['Josh R.','Their team helped me pick a racket for my playing style. Patient and really know their stuff.','#0A0B0E','Buyer']
+];
+const rv=([n,t,c,r])=>`<div class="rv"><div class="st">★★★★★</div><p>${t}</p><div class="who"><i style="background:${c}">${n[0]}</i>${n}<span class="vf"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4"><path d="m5 12 5 5 9-10"/></svg></span><small>${r}</small></div></div>`;
+const A=[rv(REV[0]),'<div class="tm__ph ph" data-scene="night" data-src="images/club-social-indoor.jpg" data-pos="40% 50%"></div>',rv(REV[1]),rv(REV[2])].join('');
+const B=[rv(REV[3]),rv(REV[4]),'<div class="tm__ph ph" data-scene="dusk" data-src="images/player-woman-outdoor.webp" data-pos="50% 40%"></div>',rv(REV[5])].join('');
+$('#tmA').innerHTML=A+A;$('#tmB').innerHTML=B+B;
+
+/* ---------- 07 community micro-animations (autoplay while visible) ---------- */
+(()=>{
+  const sec=$('#community'),calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count=(el,to,ms=1400)=>{let t0=null;const f=t=>{t0??=t;const k=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-k,3))).toLocaleString('en-AU');if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
+  const closeAt=new Date();closeAt.setDate(closeAt.getDate()+9);closeAt.setHours(23,59,0,0);
+  const tickClose=()=>{const t=Math.max(0,closeAt-Date.now())/1000;$('#closes').textContent=`Entries close in ${Math.floor(t/86400)}d ${Math.floor(t%86400/3600)}h ${String(Math.floor(t%3600/60)).padStart(2,'0')}m ${String(Math.floor(t%60)).padStart(2,'0')}s`};
+  tickClose();setInterval(tickClose,1000);
+  const NAMES=['Mia','Josh','Ava','Liam','Zoe','Noah','Ruby','Ethan','Isla','Leo'],COLS=['#1769BA','#4E97E0','#3b4b7a','#2b3550'];
+  let started=false,timer;
+  function joinOne(){
+    const open=$$('#matchList .match').filter(m=>m.style.display!=='none'&&m.querySelector('.avs i.e'));
+    if(!open.length){$$('#matchList .match').forEach(m=>{m.classList.remove('is-full','joined');const av=m.querySelector('.avs');const filled=[...av.querySelectorAll('i:not(.e)')];filled.slice(m.dataset.base?+m.dataset.base:filled.length).forEach(i=>{i.className='e';i.textContent='';i.style.background=''})});return}
+    const m=open[Math.floor(Math.random()*open.length)],slot=m.querySelector('.avs i.e'),name=NAMES[Math.floor(Math.random()*NAMES.length)];
+    if(!m.dataset.base)m.dataset.base=m.querySelectorAll('.avs i:not(.e)').length;
+    slot.className='pop';slot.textContent=name[0];slot.style.background=COLS[Math.floor(Math.random()*COLS.length)];
+    m.classList.add('joined');setTimeout(()=>m.classList.remove('joined'),1400);
+    if(!m.querySelector('.avs i.e'))m.classList.add('is-full');
+    $('#joinFeed').innerHTML=`<span>${name} joined · ${m.querySelector('b').textContent}</span>`;
+    const club=$$('#clubs .club')[Math.floor(Math.random()*4)],c=club.querySelector('.cnt');
+    c.textContent=+c.textContent+1;club.classList.remove('bump');void club.offsetWidth;club.classList.add('bump');c.classList.add('bump');setTimeout(()=>c.classList.remove('bump'),900);
+  }
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){
+      if(!started){started=true;sec.classList.add('go');count($('#teamsN'),46);$$('.pd .pt').forEach(p=>{const n=parseInt(p.textContent.replace(/,/g,''));const b=document.createElement('b');b.style.fontWeight='inherit';p.textContent='';p.append(b,' pts');count(b,n,1600)})}
+      if(!calm&&!timer)timer=setInterval(joinOne,2800);
+    }else{clearInterval(timer);timer=null}
+  }),{threshold:.25});
+  io.observe(sec);
+})();
+
+PM.fillPh();PM.reveal();
+
+/* ---------- 02 hero ---------- */
+const sl=$$('.sl'),dots=$('#heroDots');let cur=0,tm;
+dots.innerHTML=sl.map((_,i)=>`<button aria-label="Slide ${i+1}"><i></i></button>`).join('');
+function go(n){sl[cur].classList.remove('on');cur=(n+sl.length)%sl.length;sl[cur].classList.add('on');
+  $$('button',dots).forEach((b,i)=>{b.classList.remove('on','done');void b.offsetWidth;if(i<cur)b.classList.add('done');if(i===cur)b.classList.add('on')});
+  $('#heroCount').textContent=`0${cur+1} / 0${sl.length}`;clearTimeout(tm);tm=setTimeout(()=>go(cur+1),6500)}
+$$('.hero__ctrl button').forEach(b=>b.onclick=()=>go(cur+ +b.dataset.dir));
+$$('button',dots).forEach((b,i)=>b.onclick=()=>go(i));go(0);
+
+/* event countdown */
+const end=new Date();end.setDate(end.getDate()+14);end.setHours(8,0,0,0);
+const pad=n=>String(n).padStart(2,'0');
+function tick(){const t=Math.max(0,end-Date.now())/1000;const v={d:Math.floor(t/86400),h:Math.floor(t%86400/3600),m:Math.floor(t%3600/60),s:Math.floor(t%60)};
+  $$('[data-cd]').forEach(c=>Object.entries(v).forEach(([k,x])=>{const e=$(`[data-${k}]`,c);if(e)e.textContent=pad(x)}))}
+tick();setInterval(tick,1000);
+
+/* ---------- 05 sell in 2 steps (scroll-driven) ---------- */
+const sell=$('#sell'),nums=$$('#sellNum span'),bars=$$('#sellBar b'),scr=$$('.screen'),steps=$$('.step');let sIdx=-1;
+/* mobile: scale the phone so heading, phone and step text all fit one screen */
+function fitPhone(){
+  if(innerWidth>900){sell.style.removeProperty('--ps');sell.style.removeProperty('--sr-h');return}
+  const right=$('.sell__right',sell),left=$('.sell__left',sell);
+  const srh=Math.max(...steps.map(s=>{s.style.position='static';const h=s.offsetHeight;s.style.position='';return h}));
+  sell.style.setProperty('--sr-h',srh+'px');
+  const vh=window.visualViewport?visualViewport.height:innerHeight;
+  const avail=vh-48-left.offsetHeight-srh-28;
+  sell.style.setProperty('--ps',Math.max(.42,Math.min(.95,avail/527)).toFixed(3));
+}
+fitPhone();
+function sellState(){
+  const r=sell.getBoundingClientRect(),p=Math.min(.999,Math.max(0,-r.top/(sell.offsetHeight-innerHeight)));
+  const n=nums.length,i=Math.floor(p*n),local=p*n-i;
+  bars.forEach((b,k)=>b.style.transform=`scaleX(${k<i?1:k===i?local:0})`);
+  if(i===sIdx)return;sIdx=i;
+  nums.forEach((x,k)=>{x.classList.toggle('on',k===i);x.classList.toggle('past',k<i)});
+  scr.forEach((x,k)=>x.classList.toggle('on',k===i));
+  steps.forEach((x,k)=>x.classList.toggle('on',k===i));
+}
+
+/* ---------- 06 purpose (circle expands to full screen) ---------- */
+const pur=$('#purpose'),lc=$('#lensc'),ptx=$('#purposeTxt'),band=$('#band');
+function purposeState(){
+  const r=pur.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(pur.offsetHeight-innerHeight)));
+  const z=Math.min(1,Math.max(0,(p-.15)/.55)),e=z*z*(3-2*z);
+  const base=Math.min(96,Math.max(60,innerWidth*.06)),bandH=Math.min(140,Math.max(96,innerWidth*.1));
+  const cy=.58*innerHeight+bandH/2,max=Math.hypot(innerWidth,innerHeight);
+  lc.style.clipPath=`circle(${base+(max-base)*e}px at 50% ${cy+(innerHeight/2-cy)*e}px)`;
+  lc.classList.toggle('dim',e>.85);band.style.opacity=1-e;
+  ptx.classList.toggle('on',p>.72);
+}
+addEventListener('scroll',()=>{sellState();purposeState()},{passive:true});
+addEventListener('resize',()=>{sIdx=-1;fitPhone();sellState();purposeState()});
+document.fonts&&document.fonts.ready.then(fitPhone);
+sellState();purposeState();
+
+</script>
+
+</body></html>

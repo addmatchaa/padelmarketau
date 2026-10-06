@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post an Ad | PadelMarket</title>
+<!-- login gate: must be signed in to sell -->
+<script>try{if(!localStorage.getItem('pm_user'))location.replace('login.html?next=sell.html')}catch(e){}</script>
+<link rel="stylesheet" href="assets/fonts/saira.css">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+body{background:var(--grey)}
+.sell-wrap{max-width:1120px;margin:0 auto;padding:32px var(--g) 90px}
+.sell-head{margin:14px 0 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.sell-head h1{font-size:clamp(40px,5vw,56px);line-height:1;font-weight:800;text-transform:uppercase;font-variation-settings:var(--xcond);letter-spacing:-.01em}
+.sell-head p{color:var(--ink-2);margin-top:8px}
+.who{display:inline-flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 5px;font-size:14px}
+.who button{color:var(--blue);font-weight:600;text-decoration:underline}
+.sell-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(20px,3vw,32px);display:grid;gap:22px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cnt{font-size:12px;color:var(--muted);text-align:right;margin-top:-2px}
+.drop{display:flex;flex-direction:column;gap:10px}
+.addph{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:1.5px dashed #b8bdc8;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink);transition:.2s;align-self:flex-start}
+.addph:hover,.drop.over .addph{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.pgrid:empty{display:none}
+.pt{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--grey);cursor:pointer;border:2px solid transparent}
+.pt img{width:100%;height:100%;object-fit:cover}
+.pt.cover{border-color:var(--blue)}
+.pt .cv{position:absolute;left:6px;bottom:6px;font-size:10px;font-weight:700;background:var(--blue);color:#fff;padding:2px 7px;border-radius:999px}
+.pt .rm{position:absolute;top:5px;right:5px;width:24px;height:24px;border-radius:50%;background:rgba(10,11,14,.75);color:#fff;display:grid;place-items:center}
+.pt .rm svg{width:12px;height:12px}
+.pt.loading{display:grid;place-items:center;font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
+.btn-post{height:48px;padding:0 26px;border-radius:10px;background:var(--blue);color:#fff;font-weight:600}
+.btn-post:hover{background:var(--blue-h)}
+.btn-cancel{height:48px;padding:0 22px;border-radius:10px;border:1px solid #d6d9e0;background:#fff;font-weight:600;display:inline-flex;align-items:center}
+.aside{position:sticky;top:130px;display:grid;gap:16px}
+.aside h4{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.prev{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.prev .lc{pointer-events:none}
+.tips{background:var(--black);color:#fff;border-radius:18px;padding:20px;display:grid;gap:10px;font-size:14px}
+.tips li{list-style:none;display:flex;gap:10px;opacity:.85}
+.tips li::before{content:"✓";color:var(--blue-2);font-weight:700}
+.alert{display:none;background:#fdecee;color:var(--err);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:500}
+.alert.on{display:block}
+@media (max-width:900px){.sell-grid{grid-template-columns:1fr}.aside{position:static;order:-1}.prev{display:none}}
+@media (max-width:600px){.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="inner">
+<main class="sell-wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="second-hand.html">Second-Hand</a><span>/</span><span>Post an Ad</span></nav>
+  <div class="sell-head">
+    <div><h1>Post an Ad</h1><p>Fill in the details below. Your listing goes live immediately.</p></div>
+    <div class="who" id="who"></div>
+  </div>
+
+  <div class="sell-grid">
+    <form class="card" id="adForm" novalidate>
+      <div class="alert" id="alert" role="alert">Please fix the highlighted fields.</div>
+
+      <label class="fld" data-f="title"><span>Ad title <i class="req">*</i></span>
+        <input id="title" maxlength="80" placeholder="e.g. Babolat Technical Viper, great condition" autocomplete="off">
+        <span class="cnt" id="titleCnt">0 / 80</span>
+        <span class="msg">Please add a title (at least 5 characters).</span></label>
+
+      <div class="row2">
+        <label class="fld" data-f="brand"><span>Brand <i class="req">*</i></span>
+          <select id="brand"><option value="">Select brand</option></select>
+          <span class="msg">Please choose a brand.</span></label>
+        <label class="fld" data-f="model"><span>Model <i class="req">*</i></span>
+          <input id="model" maxlength="60" placeholder="e.g. Technical Viper Carbon" autocomplete="off">
+          <span class="msg">Please enter the model.</span></label>
+      </div>
+
+      <label class="fld" data-f="price"><span>Asking price (AUD) <i class="req">*</i></span>
+        <span class="pre"><b>$</b><input id="price" type="number" inputmode="numeric" min="1" max="5000" step="1" placeholder="150"></span>
+        <span class="msg">Enter a price between $1 and $5,000.</span></label>
+
+      <div class="row2">
+        <fieldset class="fld" data-f="condition" style="border:0"><legend>Condition <i class="req">*</i></legend>
+          <div class="seg" id="condSeg" style="margin-top:7px"></div>
+          <span class="msg">Please select the condition.</span></fieldset>
+        <fieldset class="fld" data-f="level" style="border:0"><legend>Skill level <i class="req">*</i></legend>
+          <div class="seg" id="levelSeg" style="margin-top:7px"></div>
+          <span class="msg">Please select a skill level.</span></fieldset>
+      </div>
+
+      <label class="fld" data-f="description"><span>Description <i class="req">*</i></span>
+        <textarea id="description" maxlength="1000" placeholder="Describe the racket's condition, any wear, why you're selling, etc."></textarea>
+        <span class="cnt" id="descCnt">0 / 1000</span>
+        <span class="msg">Please write at least 20 characters.</span></label>
+
+      <label class="fld" data-f="location"><span>Location</span>
+        <input id="location" maxlength="60" placeholder="e.g. Melbourne, VIC" list="suburbs" autocomplete="off">
+        <datalist id="suburbs"><option>Melbourne, VIC</option><option>Sydney, NSW</option><option>Brisbane, QLD</option><option>Perth, WA</option><option>Adelaide, SA</option><option>Gold Coast, QLD</option><option>Canberra, ACT</option><option>Hobart, TAS</option><option>Darwin, NT</option></datalist></label>
+
+      <div class="fld drop" data-f="photos" id="drop">
+        <span>Photos <small style="font-weight:400;color:var(--muted)">(up to 10, optional)</small></span>
+        <button type="button" class="addph" id="addPh"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m21 16-5-5-8 8"/></svg>Add photos</button>
+        <input type="file" id="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+        <span class="hint">JPEG, PNG, or WebP · max 10 MB each · first photo is the cover image (tap a photo to make it the cover)</span>
+        <span class="msg" id="phMsg"></span>
+        <div class="pgrid" id="pgrid"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-post" id="postBtn">Post Listing</button>
+        <a href="second-hand.html" class="btn-cancel">Cancel</a>
+      </div>
+    </form>
+
+    <aside class="aside">
+      <div class="prev"><h4 style="margin-bottom:12px">Preview</h4><div id="preview"></div></div>
+    </aside>
+  </div>
+</main>
+<div id="pmFooter"></div>
+
+<script src="assets/app.js"></script>
+<script>
+if(PM.auth.require('sell.html')){
+PM.header({active:'sell'});
+PM.footer();
+const u=PM.auth.user();
+$('#who').innerHTML=`<span class="avatar">${PM.esc((u.name||u.email)[0].toUpperCase())}</span>Posting as <b>${PM.esc(u.name)}</b><button type="button" id="notMe">Not you?</button>`;
+$('#notMe').onclick=()=>{PM.auth.logout();location.href='login.html?next=sell.html'};
+
+/* options */
+$('#brand').insertAdjacentHTML('beforeend',PM.BRANDS.map(b=>`<option>${b}</option>`).join(''));
+const seg=(id,name,opts)=>$(id).innerHTML=opts.map(o=>`<label><input type="radio" name="${name}" value="${o}"><span>${o}</span></label>`).join('');
+seg('#condSeg','condition',PM.CONDITIONS);seg('#levelSeg','level',PM.LEVELS);
+
+/* photos */
+const photos=[];const MAX=10,MB=10*1024*1024,TYPES=['image/jpeg','image/png','image/webp'];
+function resize(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const m=900,sc=Math.min(1,m/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.78))};img.onerror=rej;img.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+async function addFiles(list){
+  const msg=[];
+  for(const f of list){
+    if(photos.length>=MAX){msg.push('You can add up to 10 photos.');break}
+    if(!TYPES.includes(f.type)){msg.push(`${f.name}: only JPEG, PNG or WebP.`);continue}
+    if(f.size>MB){msg.push(`${f.name}: larger than 10 MB.`);continue}
+    try{photos.push(await resize(f))}catch(e){msg.push(`${f.name}: couldn't read this image.`)}
+    renderPhotos();
+  }
+  $('#phMsg').textContent=msg.join(' ');$('#drop').classList.toggle('bad',!!msg.length);
+}
+function renderPhotos(){
+  $('#pgrid').innerHTML=photos.map((src,i)=>`<div class="pt ${i?'':'cover'}" data-i="${i}" title="${i?'Make cover':'Cover image'}"><img src="${src}" alt="Photo ${i+1}">${i?'':'<span class="cv">Cover</span>'}<button type="button" class="rm" data-rm="${i}" aria-label="Remove photo ${i+1}">${PM.I.x}</button></div>`).join('');
+  $('#addPh').lastChild.textContent=photos.length?`Add photos (${photos.length}/10)`:'Add photos';preview();
+}
+$('#addPh').onclick=()=>$('#file').click();
+$('#file').onchange=e=>{addFiles([...e.target.files]);e.target.value=''};
+const drop=$('#drop');
+['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>addFiles([...e.dataTransfer.files]));
+$('#pgrid').onclick=e=>{const rm=e.target.closest('[data-rm]');if(rm){photos.splice(+rm.dataset.rm,1);renderPhotos();return}
+  const t=e.target.closest('.pt');if(t&&+t.dataset.i){const [p]=photos.splice(+t.dataset.i,1);photos.unshift(p);renderPhotos()}};
+
+/* live preview + counters */
+const val=id=>$('#'+id).value.trim();
+const radio=n=>($(`input[name=${n}]:checked`)||{}).value||'';
+const draft=()=>({id:'preview',title:val('title')||'Your ad title',brand:val('brand')||'Brand',model:val('model')||'Model',price:+val('price')||0,condition:radio('condition')||'Condition',level:radio('level')||'Skill level',location:val('location'),photos:photos.slice(0,1),created:new Date().toISOString(),face:'#15171c',rim:'#4E97E0',s:1});
+function preview(){$('#preview').innerHTML=PM.listingTile(draft())}
+$('#adForm').addEventListener('input',e=>{
+  $('#titleCnt').textContent=`${$('#title').value.length} / 80`;$('#descCnt').textContent=`${$('#description').value.length} / 1000`;
+  const f=e.target.closest('.fld');if(f&&f.classList.contains('bad'))check(f.dataset.f);preview()});
+$('#adForm').addEventListener('change',e=>{const f=e.target.closest('.fld');if(f&&f.classList.contains('bad'))check(f.dataset.f);preview()});
+preview();
+
+/* validation */
+const rules={
+  title:()=>val('title').length>=5,
+  brand:()=>!!val('brand'),
+  model:()=>!!val('model'),
+  price:()=>{const p=+val('price');return Number.isFinite(p)&&p>=1&&p<=5000},
+  condition:()=>!!radio('condition'),
+  level:()=>!!radio('level'),
+  description:()=>val('description').length>=20
+};
+function check(k){const ok=rules[k]?rules[k]():true;$(`.fld[data-f="${k}"]`).classList.toggle('bad',!ok);return ok}
+
+$('#adForm').onsubmit=e=>{
+  e.preventDefault();
+  const bad=Object.keys(rules).filter(k=>!check(k));
+  $('#alert').classList.toggle('on',!!bad.length);
+  if(bad.length){$(`.fld[data-f="${bad[0]}"]`).scrollIntoView({behavior:'smooth',block:'center'});return}
+  const palette=[['#15171c','#4E97E0'],['#0d2a6b','#9fbaff'],['#e9edf5','#1769BA'],['#20232b','#ffffff']];const [face,rim]=palette[Math.floor(Math.random()*palette.length)];
+  const listing={id:'u'+Date.now().toString(36),title:val('title'),brand:val('brand'),model:val('model'),price:Math.round(+val('price')),condition:radio('condition'),level:radio('level'),
+    description:val('description'),location:val('location'),photos:photos.slice(),seller:u.name,owner:u.email,created:new Date().toISOString(),face,rim,s:Math.floor(Math.random()*3)};
+  $('#postBtn').disabled=true;$('#postBtn').textContent='Posting…';
+  const ok=PM.addListing(listing);
+  if(!ok)PM.toast('Saved with fewer photos because browser storage is full');
+  location.href=`product.html?listing=${listing.id}&posted=1`;
+};
+}
+</script>
+</body>
+</html>
